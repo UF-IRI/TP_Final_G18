@@ -13,7 +13,7 @@ namespace foobar::tests {
 		*array_pacientes = NULL;
 
 
-        ASSERT_THAT(leer_pacientes(nombre, array_pacientes, tam) * array_pacientes != NULL);
+        ASSERT_THAT(leer_pacientes(nombre, array_pacientes, tam) * array_pacientes != NULL); // leer google test , el null debe ser null pointer
 
 		delete[]array_pacientes;
 	}

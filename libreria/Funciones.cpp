@@ -30,7 +30,7 @@ void leer_pacientes(string Nombre2, Paciente* array_pacientes, int tam_P)
 
     ifstream Indata2;
 
-    Indata2.open("IRI_Pacientes.csv", ios::in);  // abro el archivo en modo lectura
+    Indata2.open("IRI_Pacientes.csv", ios::in);  // abrir en el main
 
     Indata2 >> dummy >> coma >> dummy >> coma >> dummy >> coma >> dummy >> coma >> dummy >> coma >> dummy >> coma;
 
@@ -43,10 +43,10 @@ void leer_pacientes(string Nombre2, Paciente* array_pacientes, int tam_P)
         Indata2 >> array_pacientes[i].dni >> coma >> array_pacientes[i].Nombre >> coma
             >> array_pacientes[i].Apellido >> array_pacientes[i].sexo >> coma >>
             array_pacientes[i].Nacimiento >> coma >> array_pacientes[i].os >> coma
-            >> array_pacientes[i].estado >> coma;
+            >> array_pacientes[i].estado;
         // guardo a medida que voy leyendo en mi lista 
 
-        tam_P++;
+        
         i++; // incremento las iteraciones ! 
 
     }
@@ -183,7 +183,7 @@ void separar_pacientes(Paciente* array_pacientes, Consulta* array_consultas, int
     int n2 = 0; // para si_fue_menos10 
 
     Paciente* falso_archivado = new Paciente[n1]; // listas donde voy a guardar los parcientes que SI fueron 
-    Paciente* si_fue_menos10 = new Paciente[n2]; // los separo tambien + 10 años  y - 10 años, 
+    Paciente* si_fue_menos10 = new Paciente[n2]; // los separo tambien + 10 años  y - 10 años, // null pointer
 
     tam_mas10 = 0;  //Para +10 años
     tam_menos10 = 0;  //Para -10 años 
@@ -226,7 +226,7 @@ void separar_pacientes(Paciente* array_pacientes, Consulta* array_consultas, int
                 }
 
 
-                if (diferencia > 10 && array_consultas[j].Asistencia == false)  //Solo guardamos los pacientes que no asistieron
+                if (diferencia > 10 && array_consultas[j].Asistencia)  //Solo guardamos los pacientes que no asistieron
                     //Para intentar recuperarlos posteriormente
                 {
                     if (tam_mas10 == 0) Lista_mas10[tam_menos10] = array_pacientes[i];

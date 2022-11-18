@@ -76,7 +76,7 @@ Tambien declaramos listas para clasificarlos segun su estado.
 
     //Comienzo de acciones\\
 
-    leer_pacientes("IRI_Pacientes.csv", array_pacientes, tam_P);                    // Leemos la lista de pacientes
+    leer_pacientes("..\\..\\..\\..\\data_files\\input\\IRI_Pacientes.csv", array_pacientes, tam_P);                    // Leemos la lista de pacientes
 
     leer_consultas("IRI_Consultas.csv", array_consultas, tam_cons);  //Leemos todas las consultas
 
