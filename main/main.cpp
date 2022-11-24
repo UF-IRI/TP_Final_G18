@@ -19,7 +19,7 @@ int main() {
     int tam_obr = 0;
     int tam_cont = 0;
 
-    //Declaracion de Listas en memoria\\
+                                       //Declaracion de Listas en memoria\\
 
 /*
 Listas de tipos Paciente :
@@ -88,13 +88,15 @@ Tambien declaramos listas para clasificarlos segun su estado.
     string dummy;
 
     char coma = ',';
-    
-//Lectura de pacientes:
-
 
     ifstream IndataP;
+    ifstream IndataC;
+    ifstream Indatac;
+    ifstream IndataM;
 
-    IndataP.open(Archivo_P, ios::in);  
+    //Lectura de pacientes:
+
+    IndataP.open(Archivo_P, ios::in);
 
     IndataP >> dummy >> coma >> dummy >> coma >> dummy >> coma >> dummy >> coma >> dummy >> coma >> dummy >> coma;
 
@@ -116,15 +118,67 @@ Tambien declaramos listas para clasificarlos segun su estado.
     }
     IndataP.close(); // cierro el archivo 
 
-    for (i = 0; i < tam_P; i++) {
+//Lectura de datos de contacto:
 
-        cout << "---------------------------------------------------------------------------" << endl;
+    Indatac.open(Archivo_C, ios::in);  // abro el archivo en modo lectura
 
-        cout << "\nDNI: " << array_pacientes[i].dni << "\nNombre: " << array_pacientes[i].Nombre << "\nApellido: "
-            << array_pacientes[i].Apellido << "\nSexo: " << array_pacientes[i].sexo << "\nNacimiento: " <<
-            array_pacientes[i].Nacimiento << "\nObra social: " << array_pacientes[i].os << "\nEstado: "
-            << array_pacientes[i].estado << endl;
+    Indatac >> dummy >> coma >> dummy >> coma >> dummy >> coma >> dummy >> coma >> dummy >> coma >> dummy >> coma;
+
+    while (!Indatac.eof()) // reviso que el archivo sea distinto de end of file
+    {
+
+        resize_C(array_contacto, tam_cont);
+        // hago el resize ya que no se la cantidad de personas en la lista
+
+        Indatac >> array_contacto[i].celular >> coma >> array_contacto[i].Direccion >> coma >> array_contacto[i].dni >> coma >> array_contacto[i].Mail >> coma >> array_contacto[i].Telefono >> coma;
+        // guardo a medida que voy leyendo en mi lista 
+
+        i++; // incremento las iteraciones ! 
+
     }
+    Indatac.close(); // cierro el archivo 
+
+ //Lectura de Consultas:
+
+    IndataC.open(Archivo_C, ios::in); // abro el archivo de consultas en modo lectura 
+
+    while (!IndataC.eof()) // mientras que el archivo sea distinto del final 
+    {
+        IndataC >> dummy >> coma >> dummy >> coma >> dummy >> coma >> dummy >> coma >> dummy >> coma >> dummy >> coma; // salteo encabezado
+
+        resize_C(array_consultas, tam_cons);
+
+        // hago el resize ya que no se la cantidad de personas en la lista 
+
+        IndataC >> array_consultas[i].dni_1 >> coma >> array_consultas[i].fecha_solicitado >> coma
+            >> array_consultas[i].fecha_consulta >> array_consultas[i].Asistencia >> coma >> array_consultas[i].matricula >> coma;
+
+        i++;
+
+    }
+    IndataC.close(); // cierro el archivo 
+
+//Leemos datos de los medicos:
+
+    IndataM.open(Archivo_M, ios::in); // abro el archivo de consultas en modo lectura 
+
+    while (!IndataM.eof()) // mientras que el archivo sea distinto del final 
+    {
+        IndataM >> dummy >> coma >> dummy >> coma >> dummy >> coma >> dummy >> coma >> dummy >> coma >> dummy >> coma >> dummy >> coma; // salteo encabezado
+
+        resize_M(array_medicos, tam_med);
+
+        // hago el resize ya que no se la cantidad de docs en la lista 
+
+        IndataM >> array_medicos[i].matricula >> coma >> array_medicos[i].nombre >> coma
+            >> array_medicos[i].apellido >> array_medicos[i].teldoc >> coma >> array_medicos[i].especialidad >> coma
+            >> array_medicos[i].actividad;
+
+        i++;
+
+    } // ya tengo mi lista de doctores cargada 
+    IndataM.close(); // cierro el archivo 
+
     
 
     //Liberamos toda la memoria que utilizamos.
@@ -138,7 +192,7 @@ Tambien declaramos listas para clasificarlos segun su estado.
 
     //Fin del codigo
 
-    getchar();
+    getchar;
 
     return 0;
 }

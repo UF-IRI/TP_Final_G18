@@ -71,17 +71,9 @@ typedef struct
 }
 paciente_full;          // Estructura para guardar todos los datos del paciente
 
-//Declaracion de las funciones\\
 
-//Lectura de archivos:
 
-void leer_pacientes(string nombre, Paciente* array_pacientes, int tam);
-
-void leer_consultas(string nombre3, Consulta* array_consultas, int tam_cons);
-
-void leer_medicos(string nombre, Medico* array_medicos, int tam_med);
-
-void leer_Contactos(string nombre, Contacto* array_contacto, int tam_cont);
+                               //Declaracion de las funciones\\
 
 //Impresion de archivos:
 
@@ -96,8 +88,6 @@ void Retornan(Paciente* lista_menos10, int tam_menos10);
 //Organiza los pacientes en listas segun su ultima consulta (+10años/-10años)
 void separar_pacientes(Paciente* array_pacientes, Consulta* array_consultas, int tam, int tam_cons, Paciente* Lista_mas10, int tam_mas10, Paciente* Lista_menos10, int tam_menos10);
 
-//Organiza los clientes en listas segun si estan internados o fallecieron
-void internados_o_fallecidos(Paciente* Lista_menos10, int tam_mas10, Paciente* array_nc, int tam_per, Paciente* array_muertos, int tam_fall);
 
 //Herramientas de apoyo:
 
@@ -114,3 +104,5 @@ void resize_M(Medico* array_medicos, int tam_med);           //Incrementa la dim
 void resize_C(Contacto* array_contactos, int tam_cont);
 
 void resize_PF(paciente_full* array_pacientes, int tam_P);
+
+void Imprimir_P(Paciente array_pacientes, int tam_P);
