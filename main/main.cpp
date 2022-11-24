@@ -28,6 +28,11 @@ segun su ultima consulta(+10/-10 y si asistio).
 Tambien declaramos listas para clasificarlos segun su estado.
 */
 
+    string Archivo_P = "..\\..\\..\\..\\data_files\\input\\IRI_Pacientes.csv";
+    string Archivo_C = "..\\..\\..\\..\\data_files\\input\\IRI_Consultas.csv";
+    string Archivo_M = "..\\..\\..\\..\\data_files\\input\\IRI_Medicos.csv";
+    string Archivo_c = "..\\..\\..\\..\\data_files\\input\\IRI_Contactos.csv";
+
     Paciente* array_pacientes = new Paciente[tam_P];
 
     Paciente* lista_mas10 = new Paciente[tam_mas10];
@@ -74,21 +79,53 @@ Tambien declaramos listas para clasificarlos segun su estado.
     array_contacto = NULL;
 
 
-    //Comienzo de acciones\\
+                                        //Lectura de archivos\\
 
-    leer_pacientes("..\\..\\..\\..\\data_files\\input\\IRI_Pacientes.csv", array_pacientes, tam_P);                    // Leemos la lista de pacientes
+    //Herramientas para hacer la lectura
 
-    leer_consultas("IRI_Consultas.csv", array_consultas, tam_cons);  //Leemos todas las consultas
+    int i = 0;
 
-    leer_medicos("IRI_Medicos.csv", array_medicos, tam_med);         //Leemos la informacion de los medicos
+    string dummy;
 
-    leer_Contactos("IRI_Contactos.csv", array_contacto, tam_cont);
+    char coma = ',';
+    
+//Lectura de pacientes:
 
-    separar_pacientes(array_pacientes, array_consultas, tam_P, tam_cons, lista_mas10, tam_mas10, lista_menos10, tam_menos10);
 
-    Escribir_Archivados(lista_mas10, tam_mas10, lista_menos10, tam_menos10);     //Archivamos a los pacientes con mas de diez años q no asistieron
+    ifstream IndataP;
 
-    Retornan(lista_menos10, tam_menos10);
+    IndataP.open(Archivo_P, ios::in);  
+
+    IndataP >> dummy >> coma >> dummy >> coma >> dummy >> coma >> dummy >> coma >> dummy >> coma >> dummy >> coma;
+
+    while (!IndataP.eof()) // reviso que el archivo sea distinto de end of file
+    {
+
+        resize_P(array_pacientes, tam_P);
+        // hago el resize ya que no se la cantidad de personas en la lista
+
+        IndataP >> array_pacientes[i].dni >> coma >> array_pacientes[i].Nombre >> coma
+            >> array_pacientes[i].Apellido >> array_pacientes[i].sexo >> coma >>
+            array_pacientes[i].Nacimiento >> coma >> array_pacientes[i].os >> coma
+            >> array_pacientes[i].estado;
+        // guardo a medida que voy leyendo en mi lista 
+
+
+        i++; // incremento las iteraciones ! 
+
+    }
+    IndataP.close(); // cierro el archivo 
+
+    for (i = 0; i < tam_P; i++) {
+
+        cout << "---------------------------------------------------------------------------" << endl;
+
+        cout << "\nDNI: " << array_pacientes[i].dni << "\nNombre: " << array_pacientes[i].Nombre << "\nApellido: "
+            << array_pacientes[i].Apellido << "\nSexo: " << array_pacientes[i].sexo << "\nNacimiento: " <<
+            array_pacientes[i].Nacimiento << "\nObra social: " << array_pacientes[i].os << "\nEstado: "
+            << array_pacientes[i].estado << endl;
+    }
+    
 
     //Liberamos toda la memoria que utilizamos.
 
