@@ -101,7 +101,7 @@ void resize_C(Consulta* array_consultas, int tam_cons);    //Incrementa la dimen
 
 void resize_M(Medico* array_medicos, int tam_med);           //Incrementa la dimension de la lista para tipos Medico
 
-void resize_C(Contacto* array_contactos, int tam_cont);
+void resize_c(Contacto* array_contactos, int tam_cont);
 
 void resize_PF(paciente_full* array_pacientes, int tam_P);
 

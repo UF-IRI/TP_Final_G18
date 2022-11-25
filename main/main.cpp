@@ -127,7 +127,7 @@ Tambien declaramos listas para clasificarlos segun su estado.
     while (!Indatac.eof()) // reviso que el archivo sea distinto de end of file
     {
 
-        resize_C(array_contacto, tam_cont);
+        resize_c(array_contacto, tam_cont);
         // hago el resize ya que no se la cantidad de personas en la lista
 
         Indatac >> array_contacto[i].celular >> coma >> array_contacto[i].Direccion >> coma >> array_contacto[i].dni >> coma >> array_contacto[i].Mail >> coma >> array_contacto[i].Telefono >> coma;
@@ -181,6 +181,12 @@ Tambien declaramos listas para clasificarlos segun su estado.
 
     
 
+    separar_pacientes(array_pacientes, array_consultas, tam_P, tam_cons, lista_mas10, tam_mas10, lista_menos10, tam_menos10);
+
+    Escribir_Archivados( lista_mas10, tam_mas10, lista_menos10, tam_menos10);
+
+    Retornan(lista_menos10, tam_menos10);
+
     //Liberamos toda la memoria que utilizamos.
 
     delete[] array_pacientes;
@@ -192,7 +198,7 @@ Tambien declaramos listas para clasificarlos segun su estado.
 
     //Fin del codigo
 
-    getchar;
+    //getchar();
 
     return 0;
 }
