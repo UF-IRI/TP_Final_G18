@@ -2,6 +2,7 @@
 #include <string.h>
 #include <ctime>
 #include <fstream>
+#include <stdlib.h>
 
 using namespace std;
 
@@ -24,7 +25,7 @@ typedef struct
     string fecha_consulta;
     string fecha_solicitado;
     string matricula;
-    bool Asistencia;
+    string Asistencia;
 }
 Consulta;
 
@@ -36,7 +37,7 @@ typedef struct
     string Nacimiento;
     string sexo;
     string os; // obra social
-    string  estado; // internado, fallecido, nc
+    string estado; // internado, fallecido, nc
 }
 Paciente;               //Estructura para leer los pacientes
 
@@ -54,7 +55,7 @@ typedef struct
     string nombre;
     string apellido;
     string especialidad;
-    bool actividad;
+    string actividad;
 
 }
 Medico;
@@ -65,7 +66,7 @@ typedef struct
     string Apellido;
     string dni;
     string os; // obra social
-    bool retorna; // si el paciente retorna o no. 
+    string retorna; // si el paciente retorna o no. 
     string medico;  // datos del ultimo medico q atendio 
 
 }
@@ -95,7 +96,7 @@ tm conversion(string consulta);                               //Convierte una va
 
 float fecha(string fecha);                                   //Retorna en años la diferencia entre 2 fechas
 
-void resize_P(Paciente* lista, int N);                      //Incrementa la dimension de la lista para tipos Paciente
+void resize_P(Paciente* &array_pacientes, int &tam_P);                      //Incrementa la dimension de la lista para tipos Paciente
 
 void resize_C(Consulta* array_consultas, int tam_cons);    //Incrementa la dimension de la lista para tipos Consulta
 

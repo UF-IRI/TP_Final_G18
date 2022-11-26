@@ -4,13 +4,15 @@
 
 
 
-void resize_P(Paciente* array_pacientes, int tam_P) // incrementa la dimension de 1 en 1 del array
+void resize_P(Paciente* &array_pacientes, int &tam_P) // incrementa la dimension de 1 en 1 del array
 {
     Paciente* array_paciente_aux = new Paciente[tam_P + 1];  // icremento de a 1
 
+    //array_paciente_aux = NULL;
+
     for (int i = 0; i < tam_P; i++) // en la ultima posicion se agrega una mas, se redimensiona
     {
-        array_paciente_aux[i] = array_pacientes[i];
+        *(array_paciente_aux + i) = *(array_pacientes + i);
     }
 
     array_pacientes = array_paciente_aux;
@@ -116,7 +118,7 @@ float fecha(string fecha)
     fecha_hoy.tm_mon = hoy->tm_mon;
     fecha_hoy.tm_year = hoy->tm_year;
 
-    int dif = 0;
+    float dif = 0;
 
     time_t aux_fin = mktime(&fecha_hoy);
     time_t aux_inicio = mktime(&Fecha);
@@ -157,7 +159,7 @@ void separar_pacientes(Paciente* array_pacientes, Consulta* array_consultas, int
 
                 float diferencia = fecha(aux); // se le pasa direccion de memoria
 
-                if (diferencia < 10 && array_consultas[j].Asistencia == false)  //Solo guardamos los pacientes que no asistieron
+                if (diferencia < 10 && array_consultas[j].Asistencia == "false")  //Solo guardamos los pacientes que no asistieron
                     //Para intentar recuperarlos posteriormente
                 {
                     if (tam_mas10 == 0) Lista_menos10[tam_mas10] = array_pacientes[i];
@@ -168,7 +170,7 @@ void separar_pacientes(Paciente* array_pacientes, Consulta* array_consultas, int
 
                 }
 
-                if (diferencia < 10 && array_consultas[j].Asistencia == true)  //Solo guardamos los pacientes que SI asistieron
+                if (diferencia < 10 && array_consultas[j].Asistencia == "true")  //Solo guardamos los pacientes que SI asistieron
                     //Para tenerlos catalogados tambien 
                 {
                     if (n1 == 0) falso_archivado[n1] = array_pacientes[i];
@@ -180,7 +182,7 @@ void separar_pacientes(Paciente* array_pacientes, Consulta* array_consultas, int
                 }
 
 
-                if (diferencia > 10 && array_consultas[j].Asistencia)  //Solo guardamos los pacientes que no asistieron
+                if (diferencia > 10 && array_consultas[j].Asistencia == "false")  //Solo guardamos los pacientes que no asistieron
                     //Para intentar recuperarlos posteriormente
                 {
                     if (tam_mas10 == 0) Lista_mas10[tam_menos10] = array_pacientes[i];
@@ -193,7 +195,7 @@ void separar_pacientes(Paciente* array_pacientes, Consulta* array_consultas, int
 
                 }
 
-                if (diferencia > 10 && array_consultas[j].Asistencia == false)  //Solo guardamos los pacientes que si asistieron
+                if (diferencia > 10 && array_consultas[j].Asistencia == "false")  //Solo guardamos los pacientes que si asistieron
                     //Para llevar control, no hacer nada con estos pacientes no es opcion ;) 
                 {
                     if (n2 == 0) si_fue_menos10[tam_menos10] = array_pacientes[i];
@@ -333,7 +335,7 @@ void Retornan(Paciente* lista_menos10, int tam_menos10) {
             array_retornan[cont].dni = lista_menos10[i].dni;
             array_retornan[cont].Nombre = lista_menos10[i].Nombre;
             array_retornan[cont].os = lista_menos10[i].os;
-            array_retornan[cont].retorna = false;
+            array_retornan[cont].retorna = "false";
         }
 
 

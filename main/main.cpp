@@ -28,10 +28,10 @@ segun su ultima consulta(+10/-10 y si asistio).
 Tambien declaramos listas para clasificarlos segun su estado.
 */
 
-    string Archivo_P = "..\\..\\..\\..\\data_files\\input\\IRI_Pacientes.csv";
-    string Archivo_C = "..\\..\\..\\..\\data_files\\input\\IRI_Consultas.csv";
-    string Archivo_M = "..\\..\\..\\..\\data_files\\input\\IRI_Medicos.csv";
-    string Archivo_c = "..\\..\\..\\..\\data_files\\input\\IRI_Contactos.csv";
+    string Archivo_P = "Pacientes.csv";
+    string Archivo_C = "Consultas.csv";
+    string Archivo_M = "Medicos.csv";
+    string Archivo_c = "Contactos.csv";
 
     Paciente* array_pacientes = new Paciente[tam_P];
 
@@ -44,10 +44,10 @@ Tambien declaramos listas para clasificarlos segun su estado.
     Paciente* array_fallecidos = new Paciente[tam_fall];
 
     array_pacientes = NULL;
-    lista_mas10 = NULL;
-    lista_menos10 = NULL;
-    array_perdidos = NULL;
-    array_fallecidos = NULL;
+    //lista_mas10 = NULL;
+    //lista_menos10 = NULL;
+    //array_perdidos = NULL;
+    //array_fallecidos = NULL;
 
     /*
     Listas de tipo consulta:
@@ -56,7 +56,7 @@ Tambien declaramos listas para clasificarlos segun su estado.
 
     Consulta* array_consultas = new Consulta[tam_cons];
 
-    array_fallecidos = NULL;
+    //array_fallecidos = NULL;
 
 
     /*
@@ -66,7 +66,7 @@ Tambien declaramos listas para clasificarlos segun su estado.
 
     Medico* array_medicos = new Medico[tam_med];
 
-    array_medicos = NULL;
+    //array_medicos = NULL;
 
 
     /*
@@ -76,7 +76,7 @@ Tambien declaramos listas para clasificarlos segun su estado.
 
     Contacto* array_contacto = new Contacto[tam_cont];
 
-    array_contacto = NULL;
+    //array_contacto = NULL;
 
 
                                         //Lectura de archivos\\
@@ -100,18 +100,20 @@ Tambien declaramos listas para clasificarlos segun su estado.
 
     IndataP >> dummy >> coma >> dummy >> coma >> dummy >> coma >> dummy >> coma >> dummy >> coma >> dummy >> coma;
 
-    while (!IndataP.eof()) // reviso que el archivo sea distinto de end of file
+    cout << dummy << endl;
+
+    while (IndataP) // reviso que el archivo sea distinto de end of file
     {
 
         resize_P(array_pacientes, tam_P);
         // hago el resize ya que no se la cantidad de personas en la lista
-
+        tam_P++;
         IndataP >> array_pacientes[i].dni >> coma >> array_pacientes[i].Nombre >> coma
             >> array_pacientes[i].Apellido >> array_pacientes[i].sexo >> coma >>
             array_pacientes[i].Nacimiento >> coma >> array_pacientes[i].os >> coma
             >> array_pacientes[i].estado;
         // guardo a medida que voy leyendo en mi lista 
-
+        
 
         i++; // incremento las iteraciones ! 
 
@@ -124,7 +126,7 @@ Tambien declaramos listas para clasificarlos segun su estado.
 
     Indatac >> dummy >> coma >> dummy >> coma >> dummy >> coma >> dummy >> coma >> dummy >> coma >> dummy >> coma;
 
-    while (!Indatac.eof()) // reviso que el archivo sea distinto de end of file
+    while (Indatac) // reviso que el archivo sea distinto de end of file
     {
 
         resize_c(array_contacto, tam_cont);
@@ -142,7 +144,7 @@ Tambien declaramos listas para clasificarlos segun su estado.
 
     IndataC.open(Archivo_C, ios::in); // abro el archivo de consultas en modo lectura 
 
-    while (!IndataC.eof()) // mientras que el archivo sea distinto del final 
+    while (IndataC) // mientras que el archivo sea distinto del final 
     {
         IndataC >> dummy >> coma >> dummy >> coma >> dummy >> coma >> dummy >> coma >> dummy >> coma >> dummy >> coma; // salteo encabezado
 
@@ -162,7 +164,7 @@ Tambien declaramos listas para clasificarlos segun su estado.
 
     IndataM.open(Archivo_M, ios::in); // abro el archivo de consultas en modo lectura 
 
-    while (!IndataM.eof()) // mientras que el archivo sea distinto del final 
+    while (IndataM) // mientras que el archivo sea distinto del final 
     {
         IndataM >> dummy >> coma >> dummy >> coma >> dummy >> coma >> dummy >> coma >> dummy >> coma >> dummy >> coma >> dummy >> coma; // salteo encabezado
 
@@ -198,7 +200,7 @@ Tambien declaramos listas para clasificarlos segun su estado.
 
     //Fin del codigo
 
-    //getchar();
+    getchar();
 
     return 0;
 }
