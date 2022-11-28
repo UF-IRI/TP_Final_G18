@@ -44,11 +44,6 @@ Tambien declaramos listas para clasificarlos segun su estado.
 
     Paciente* array_fallecidos = new Paciente[tam_fall];
 
-    //array_pacientes = NULL;
-    //lista_mas10 = NULL;
-    //lista_menos10 = NULL;
-    //array_perdidos = NULL;
-    //array_fallecidos = NULL;
 
     /*
     Listas de tipo consulta:
@@ -56,8 +51,6 @@ Tambien declaramos listas para clasificarlos segun su estado.
     */
 
     Consulta* array_consultas = new Consulta[tam_cons];
-
-    //array_fallecidos = NULL;
 
 
     /*
@@ -67,8 +60,6 @@ Tambien declaramos listas para clasificarlos segun su estado.
 
     Medico* array_medicos = new Medico[tam_med];
 
-    //array_medicos = NULL;
-
 
     /*
    Listas de tipo Contacto:
@@ -76,8 +67,6 @@ Tambien declaramos listas para clasificarlos segun su estado.
    */
 
     Contacto* array_contacto = new Contacto[tam_cont];
-
-    //array_contacto = NULL;
 
 
                                         //Lectura de archivos\\
@@ -101,8 +90,6 @@ Tambien declaramos listas para clasificarlos segun su estado.
 
     IndataP >> dummy >> coma >> dummy >> coma >> dummy >> coma >> dummy >> coma >> dummy >> coma >> dummy >> coma >> dummy;
 
-    cout << dummy << endl;
-
     while (IndataP) // reviso que el archivo sea distinto de end of file
     {
 
@@ -112,11 +99,9 @@ Tambien declaramos listas para clasificarlos segun su estado.
 
         IndataP >> array_pacientes[i].dni >> coma >> array_pacientes[i].Nombre >> coma
             >> array_pacientes[i].Apellido >> coma >> array_pacientes[i].sexo >> coma >>
-            array_pacientes[i].Nacimiento >> coma >> array_pacientes[i].os >> coma
-            >> array_pacientes[i].estado;
+            array_pacientes[i].Nacimiento >> coma >> array_pacientes[i].estado >> coma
+            >> array_pacientes[i].os;
         // guardo a medida que voy leyendo en mi lista 
-
-        cout << array_pacientes[i].dni << endl;
         
 
         i++; // incremento las iteraciones ! 
@@ -124,11 +109,15 @@ Tambien declaramos listas para clasificarlos segun su estado.
     }
     IndataP.close(); // cierro el archivo 
 
+    
+
 //Lectura de datos de contacto:
 
-    Indatac.open(Archivo_C, ios::in);  // abro el archivo en modo lectura
+    Indatac.open(Archivo_c, ios::in);  // abro el archivo en modo lectura
 
-    Indatac >> dummy >> coma >> dummy >> coma >> dummy >> coma >> dummy >> coma >> dummy >> coma >> dummy >> coma;
+    Indatac >> dummy >> coma >> dummy >> coma >> dummy >> coma >> dummy >> coma >> dummy;
+
+    i = 0;
 
     while (Indatac) // reviso que el archivo sea distinto de end of file
     {
@@ -136,7 +125,7 @@ Tambien declaramos listas para clasificarlos segun su estado.
         resize_c(array_contacto, tam_cont);
         // hago el resize ya que no se la cantidad de personas en la lista
 
-        Indatac >> array_contacto[i].celular >> coma >> array_contacto[i].Direccion >> coma >> array_contacto[i].dni >> coma >> array_contacto[i].Mail >> coma >> array_contacto[i].Telefono >> coma;
+        Indatac >> array_contacto[i].dni >> coma >> array_contacto[i].Telefono >> coma >> array_contacto[i].celular >> coma >> array_contacto[i].Direccion >> coma >> array_contacto[i].Mail;
         // guardo a medida que voy leyendo en mi lista 
 
         i++; // incremento las iteraciones ! 
@@ -144,40 +133,47 @@ Tambien declaramos listas para clasificarlos segun su estado.
     }
     Indatac.close(); // cierro el archivo 
 
+    
+
  //Lectura de Consultas:
 
     IndataC.open(Archivo_C, ios::in); // abro el archivo de consultas en modo lectura 
 
+    i = 0;
+
     while (IndataC) // mientras que el archivo sea distinto del final 
     {
-        IndataC >> dummy >> coma >> dummy >> coma >> dummy >> coma >> dummy >> coma >> dummy >> coma >> dummy >> coma; // salteo encabezado
+        IndataC >> dummy >> coma >> dummy >> coma >> dummy >> coma >> dummy >> coma >> dummy; // salteo encabezado
 
         resize_C(array_consultas, tam_cons);
 
         // hago el resize ya que no se la cantidad de personas en la lista 
 
         IndataC >> array_consultas[i].dni_1 >> coma >> array_consultas[i].fecha_solicitado >> coma
-            >> array_consultas[i].fecha_consulta >> array_consultas[i].Asistencia >> coma >> array_consultas[i].matricula >> coma;
+            >> array_consultas[i].fecha_consulta >> coma >> array_consultas[i].Asistencia >> coma >> array_consultas[i].matricula;
 
         i++;
 
     }
     IndataC.close(); // cierro el archivo 
 
+
 //Leemos datos de los medicos:
 
     IndataM.open(Archivo_M, ios::in); // abro el archivo de consultas en modo lectura 
 
+    i = 0;
+
     while (IndataM) // mientras que el archivo sea distinto del final 
     {
-        IndataM >> dummy >> coma >> dummy >> coma >> dummy >> coma >> dummy >> coma >> dummy >> coma >> dummy >> coma >> dummy >> coma; // salteo encabezado
+        IndataM >> dummy >> coma >> dummy >> coma >> dummy >> coma >> dummy >> coma >> dummy >> coma >> dummy; // salteo encabezado
 
         resize_M(array_medicos, tam_med);
 
         // hago el resize ya que no se la cantidad de docs en la lista 
 
         IndataM >> array_medicos[i].matricula >> coma >> array_medicos[i].nombre >> coma
-            >> array_medicos[i].apellido >> array_medicos[i].teldoc >> coma >> array_medicos[i].especialidad >> coma
+            >> array_medicos[i].apellido >> coma >> array_medicos[i].teldoc >> coma >> array_medicos[i].especialidad >> coma
             >> array_medicos[i].actividad;
 
         i++;
@@ -185,13 +181,11 @@ Tambien declaramos listas para clasificarlos segun su estado.
     } // ya tengo mi lista de doctores cargada 
     IndataM.close(); // cierro el archivo 
 
-    
-
     separar_pacientes(array_pacientes, array_consultas, tam_P, tam_cons, lista_mas10, tam_mas10, lista_menos10, tam_menos10);
 
-    Escribir_Archivados( lista_mas10, tam_mas10, lista_menos10, tam_menos10);
+    //Escribir_Archivados( lista_mas10, tam_mas10, lista_menos10, tam_menos10);
 
-    Retornan(lista_menos10, tam_menos10);
+    //Retornan(lista_menos10, tam_menos10);
 
     //Liberamos toda la memoria que utilizamos.
 

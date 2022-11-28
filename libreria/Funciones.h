@@ -36,8 +36,8 @@ typedef struct
     string Apellido;
     string sexo;
     string Nacimiento;
-    string os; // obra social
     string estado; // internado, fallecido, nc
+    string os; // obra social
 }
 Paciente;               //Estructura para leer los pacientes
 
@@ -62,12 +62,13 @@ Medico;
 
 typedef struct
 {
+    string dni;
     string Nombre;
     string Apellido;
-    string dni;
+    string Telefono;
+    Medico *medico;
     string os; // obra social
     string retorna; // si el paciente retorna o no. 
-    string medico;  // datos del ultimo medico q atendio 
 
 }
 paciente_full;          // Estructura para guardar todos los datos del paciente
@@ -87,7 +88,7 @@ void Retornan(Paciente* lista_menos10, int tam_menos10);
 //Clasificaciones por lista de los pacientes:
 
 //Organiza los pacientes en listas segun su ultima consulta (+10años/-10años)
-void separar_pacientes(Paciente* array_pacientes, Consulta* array_consultas, int tam, int tam_cons, Paciente* Lista_mas10, int tam_mas10, Paciente* Lista_menos10, int tam_menos10);
+void separar_pacientes(Paciente *array_pacientes, Consulta *array_consultas, int tam, int tam_cons, Paciente *&Lista_mas10, int &tam_mas10, Paciente *&Lista_menos10, int &tam_menos10);
 
 
 //Herramientas de apoyo:
@@ -95,6 +96,8 @@ void separar_pacientes(Paciente* array_pacientes, Consulta* array_consultas, int
 tm conversion(string consulta);                               //Convierte una variable de tipo string a tm
 
 float fecha(string fecha);                                   //Retorna en años la diferencia entre 2 fechas
+
+void CopyArray_Paciente(Paciente *&Lista1, int Tam, Paciente *Lista2, int Pos);
 
 void resize_P(Paciente *&array_pacientes, int &tam_P);                      //Incrementa la dimension de la lista para tipos Paciente
 
@@ -106,4 +109,12 @@ void resize_c(Contacto *&array_contactos, int &tam_cont);
 
 void resize_PF(paciente_full *&array_pacientes, int &tam_P);
 
-void Imprimir_P(Paciente array_pacientes, int tam_P);
+//Funciones para imprimir tipos de listas (es un extra para hacer pruebas y chekeos)
+
+void Imprimir_P(Paciente *array_pacientes, int tam_P);
+
+void Imprimir_c(Contacto* array_contacto, int tam_cont);
+
+void Imprimir_C(Consulta* array_consulta, int tam_cons);
+
+void Imprimir_M(Medico* array_Medicos, int tam_M);

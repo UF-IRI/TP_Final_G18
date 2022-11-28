@@ -41,7 +41,7 @@ void resize_C(Consulta *&array_consultas, int &tam_cons)
     
     array_consultas = array_consultas_aux;
 
-    delete[] array_consultas;
+    
 } // aumenta dimension de consultas
 
 void resize_c(Contacto *&array_contactos, int &tam_cont) {
@@ -59,8 +59,6 @@ void resize_c(Contacto *&array_contactos, int &tam_cont) {
     
     array_contactos = array_contacto_aux;
 
-    delete[] array_contacto_aux; // libero memoria 
-
 }
 
 void resize_M(Medico *&array_medicos, int &tam_med) {
@@ -69,7 +67,7 @@ void resize_M(Medico *&array_medicos, int &tam_med) {
     
     Medico* array_medicos_aux = new Medico[tam_med];  // icremento de a 1
 
-    for (int i = 0; i < tam_med; i++) // en la ultima posicion se agrega una mas, se redimensiona
+    for (int i = 0; i < tam_med-1; i++) // en la ultima posicion se agrega una mas, se redimensiona
     {
         array_medicos_aux[i] = array_medicos[i];
     }
@@ -78,7 +76,7 @@ void resize_M(Medico *&array_medicos, int &tam_med) {
     
     array_medicos = array_medicos_aux;
 
-    delete[] array_medicos_aux; // libero memoria 
+    
 
 }
 
@@ -97,7 +95,7 @@ void resize_PF(paciente_full *&array_pacientes, int &tam_Pf) // incrementa la di
     
     array_pacientes = array_paciente_aux;
 
-    delete[] array_paciente_aux; // libero memoria 
+    
 
 } // aumenta dimension de pacientes  
 
@@ -125,6 +123,28 @@ tm conversion(string consulta)
 }
 
 
+void CopyArray_Paciente(Paciente *&Lista1, int Tam, Paciente *Lista2, int Pos) {
+
+    Paciente* Aux = new Paciente[Tam];
+
+    int i = 0;
+
+    for (i = 0; i < Tam ; i++) {
+
+        Aux[i] = Lista1[i];
+
+    }
+
+    Aux[Tam-1] = Lista2[Pos];
+
+    delete[] Lista1;
+
+    Lista1 = Aux;
+
+}
+
+
+
 float fecha(string fecha)
 {
     tm Fecha = conversion(fecha); // primero convierto de string a tm 
@@ -149,17 +169,17 @@ float fecha(string fecha)
 }
 
 
-void separar_pacientes(Paciente* array_pacientes, Consulta* array_consultas, int tam_P, int tam_cons, Paciente* Lista_mas10, int tam_mas10, Paciente* Lista_menos10, int tam_menos10)
+void separar_pacientes(Paciente* array_pacientes, Consulta* array_consultas, int tam_P, int tam_cons, Paciente *&Lista_mas10, int &tam_mas10, Paciente *&Lista_menos10, int &tam_menos10)
 {
 
     // le paso las listas de los pacientes y de las consultas 
    // y las listas vacias donde voy separar 
 
-    int n1 = 0; // para falso_Archivado
-    int n2 = 0; // para si_fue_menos10 
+    int Tam_P_Activo = 0; // para falso_Archivado
+    int Tam_P_Inactivo = 0; // para si_fue_menos10 
 
-    Paciente* falso_archivado = new Paciente[n1]; // listas donde voy a guardar los parcientes que SI fueron 
-    Paciente* si_fue_menos10 = new Paciente[n2]; // los separo tambien + 10 años  y - 10 años, // null pointer
+    Paciente* Paciente_Activo = new Paciente[Tam_P_Activo]; // listas donde voy a guardar los parcientes que SI fueron 
+    Paciente* Paciente_Inactivo = new Paciente[Tam_P_Inactivo]; // los separo tambien + 10 años  y - 10 años, // null pointer
 
     tam_mas10 = 0;  //Para +10 años
     tam_menos10 = 0;  //Para -10 años 
@@ -179,52 +199,49 @@ void separar_pacientes(Paciente* array_pacientes, Consulta* array_consultas, int
 
                 float diferencia = fecha(aux); // se le pasa direccion de memoria
 
-                if (diferencia < 10 && array_consultas[j].Asistencia == "false")  //Solo guardamos los pacientes que no asistieron
+                if (diferencia < 10 && array_consultas[j].Asistencia == "0")  //Solo guardamos los pacientes que no asistieron
                     //Para intentar recuperarlos posteriormente
                 {
-                    if (tam_mas10 == 0) Lista_menos10[tam_mas10] = array_pacientes[i];
+                    
 
                     resize_P(Lista_menos10, tam_mas10);
 
-                    Lista_menos10[tam_mas10] = array_pacientes[i];
+                    CopyArray_Paciente(Lista_menos10, tam_mas10, array_pacientes, i);
 
                 }
 
-                if (diferencia < 10 && array_consultas[j].Asistencia == "true")  //Solo guardamos los pacientes que SI asistieron
+                if (diferencia < 10 && array_consultas[j].Asistencia == "1")  //Solo guardamos los pacientes que SI asistieron
                     //Para tenerlos catalogados tambien 
                 {
-                    if (n1 == 0) falso_archivado[n1] = array_pacientes[i];
+                    
 
-                    resize_P(falso_archivado, n1);
+                    resize_P(Paciente_Activo, Tam_P_Activo);
 
-                    falso_archivado[n1] = array_pacientes[i];
+                    CopyArray_Paciente(Paciente_Activo, Tam_P_Activo, array_pacientes, i);
 
                 }
 
 
-                if (diferencia > 10 && array_consultas[j].Asistencia == "false")  //Solo guardamos los pacientes que no asistieron
+                if (diferencia > 10 && array_consultas[j].Asistencia == "0")  //Solo guardamos los pacientes que no asistieron
                     //Para intentar recuperarlos posteriormente
                 {
-                    if (tam_mas10 == 0) Lista_mas10[tam_menos10] = array_pacientes[i];
 
                     resize_P(Lista_mas10, tam_menos10);
 
-                    Lista_mas10[tam_menos10] = array_pacientes[i];
+                    CopyArray_Paciente(Lista_mas10, tam_menos10, array_pacientes, i);
 
-                    Lista_mas10[tam_menos10].estado = "Archivado";
+                    Lista_mas10[tam_menos10-1].estado = "Archivado";
 
                 }
 
-                if (diferencia > 10 && array_consultas[j].Asistencia == "false")  //Solo guardamos los pacientes que si asistieron
-                    //Para llevar control, no hacer nada con estos pacientes no es opcion ;) 
+                if (diferencia > 10 && array_consultas[j].Asistencia == "1")  //Solo guardamos los pacientes que si asistieron
+                                                                             //Para llevar control, no hacer nada con estos pacientes no es opcion ;) 
                 {
-                    if (n2 == 0) si_fue_menos10[tam_menos10] = array_pacientes[i];
 
+                    resize_P(Paciente_Inactivo, Tam_P_Inactivo);
 
-                    resize_P(si_fue_menos10, n2);
-
-                    Lista_mas10[tam_menos10] = array_pacientes[i];
-
+                    
+                    CopyArray_Paciente(Paciente_Inactivo, Tam_P_Inactivo, array_pacientes, i);
 
                 }
 
@@ -234,26 +251,28 @@ void separar_pacientes(Paciente* array_pacientes, Consulta* array_consultas, int
 
     }
 
+    //Reduje esto a 3 porque sino imprime demasiados
+
     cout << "----- LISTA DE PACIENTES INACTIVOS -----" << endl;
     cout << endl;
     cout << endl;
 
-    for (int i = 0; i < n1; i++)
-    {
-        cout << "Paciente : " << falso_archivado[i].Apellido << "  DNI: " << falso_archivado[i].dni << endl;
-        cout << endl;
-    }
+    if (n1 > 0 && n1 < 3)Imprimir_P(falso_archivado, n1);
+
+    if(n1 > 0)Imprimir_P(falso_archivado, 3);
+
+    else  cout << "NO HAY PACIENTES." << endl;;
 
     cout << "----- LISTA DE PACIENTES RESPONSABLES QUE ASISTEN A SUS CONSULTAS -----" << endl;
     cout << endl;
     cout << endl;
 
-    for (int i = 0; i < n2; i++)
-    {
-        cout << "Paciente :  " << si_fue_menos10[i].Apellido << "  DNI : " << si_fue_menos10[i].dni << endl;
-        cout << endl;
-    }
+    if (n2 > 0 && n2 < 3)Imprimir_P(si_fue_menos10, 3);
 
+    if (n2 > 0)Imprimir_P(si_fue_menos10, 3);
+
+    else  cout << "NO HAY PACIENTES." << endl;;
+    
     delete[] si_fue_menos10;
     delete[] falso_archivado;
 }
@@ -383,11 +402,64 @@ void Imprimir_P(Paciente *array_pacientes, int tam_P) {
 
     for (i = 0; i < tam_P; i++) {
 
-        cout << "---------------------------------------------------------------------------" << endl;
+        cout << "--------------------------------------------" << endl;
+        cout << "DNI: " << array_pacientes[i].dni << endl;
+        cout << "Nombre: " << array_pacientes[i].Nombre << endl;
+        cout << "Apellido: " << array_pacientes[i].Apellido << endl;
+        cout << "Sexo: " << array_pacientes[i].sexo << endl;
+        cout << "Nacimiento: " << array_pacientes[i].Nacimiento << endl;
+        cout << "Obra social: " << array_pacientes[i].os << endl;
+        cout << "Estado: " << array_pacientes[i].estado << endl;
+    }
+}
 
-        cout << "\nDNI: " << array_pacientes[i].dni << "\nNombre: " << array_pacientes[i].Nombre << "\nApellido: "
-            << array_pacientes[i].Apellido << "\nSexo: " << array_pacientes[i].sexo << "\nNacimiento: " <<
-            array_pacientes[i].Nacimiento << "\nObra social: " << array_pacientes[i].os << "\nEstado: "
-            << array_pacientes[i].estado << endl;
+
+void Imprimir_c(Contacto *array_contacto, int tam_cont) {
+
+
+    int i = 0;
+
+    for (i = 0; i < tam_cont; i++) {
+
+        cout << "--------------------------------------------" << endl;
+        cout << "DNI: " << array_contacto[i].dni << endl;
+        cout << "Nombre: " << array_contacto[i].Telefono << endl;
+        cout << "Apellido: " << array_contacto[i].celular << endl;
+        cout << "Sexo: " << array_contacto[i].Direccion << endl;
+        cout << "Nacimiento: " << array_contacto[i].Mail << endl;
+    }
+}
+
+
+void Imprimir_C(Consulta* array_consulta, int tam_cons) {
+
+
+    int i = 0;
+
+    for (i = 0; i < tam_cons; i++) {
+
+        cout << "--------------------------------------------" << endl;
+        cout << "DNI: " << array_consulta[i].dni_1 << endl;
+        cout << "Fecha en que se solicita el turno: " << array_consulta[i].fecha_solicitado << endl;
+        cout << "Fecha del turno: " << array_consulta[i].fecha_consulta << endl;
+        cout << "Asistencia: " << array_consulta[i].Asistencia << endl;
+        cout << "Matricula del medico: " << array_consulta[i].matricula << endl;
+    }
+}
+
+
+void Imprimir_M(Medico* array_Medicos, int tam_M) {
+
+
+    int i = 0;
+
+    for (i = 0; i < tam_M; i++) {
+
+        cout << "--------------------------------------------" << endl;
+        cout << "Matricula: " << array_Medicos[i].matricula << endl;
+        cout << "Nombre: " << array_Medicos[i].nombre << endl;
+        cout << "Apellido: " << array_Medicos[i].apellido << endl;
+        cout << "Telefono: " << array_Medicos[i].teldoc << endl;
+        cout << "En ejercicio: " << array_Medicos[i].actividad << endl;
     }
 }
