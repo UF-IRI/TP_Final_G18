@@ -18,6 +18,7 @@ int main() {
     int tam_med = 0;
     int tam_obr = 0;
     int tam_cont = 0;
+    int tam_Pf = 0;
 
                                        //Declaracion de Listas en memoria\\
 
@@ -43,7 +44,7 @@ Tambien declaramos listas para clasificarlos segun su estado.
 
     Paciente* array_fallecidos = new Paciente[tam_fall];
 
-    array_pacientes = NULL;
+    //array_pacientes = NULL;
     //lista_mas10 = NULL;
     //lista_menos10 = NULL;
     //array_perdidos = NULL;
@@ -98,7 +99,7 @@ Tambien declaramos listas para clasificarlos segun su estado.
 
     IndataP.open(Archivo_P, ios::in);
 
-    IndataP >> dummy >> coma >> dummy >> coma >> dummy >> coma >> dummy >> coma >> dummy >> coma >> dummy >> coma;
+    IndataP >> dummy >> coma >> dummy >> coma >> dummy >> coma >> dummy >> coma >> dummy >> coma >> dummy >> coma >> dummy;
 
     cout << dummy << endl;
 
@@ -106,13 +107,16 @@ Tambien declaramos listas para clasificarlos segun su estado.
     {
 
         resize_P(array_pacientes, tam_P);
+
         // hago el resize ya que no se la cantidad de personas en la lista
-        tam_P++;
+
         IndataP >> array_pacientes[i].dni >> coma >> array_pacientes[i].Nombre >> coma
-            >> array_pacientes[i].Apellido >> array_pacientes[i].sexo >> coma >>
+            >> array_pacientes[i].Apellido >> coma >> array_pacientes[i].sexo >> coma >>
             array_pacientes[i].Nacimiento >> coma >> array_pacientes[i].os >> coma
             >> array_pacientes[i].estado;
         // guardo a medida que voy leyendo en mi lista 
+
+        cout << array_pacientes[i].dni << endl;
         
 
         i++; // incremento las iteraciones ! 

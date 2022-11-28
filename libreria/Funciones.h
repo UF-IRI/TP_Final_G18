@@ -31,11 +31,11 @@ Consulta;
 
 typedef struct
 {
+    string dni;
     string Nombre;
     string Apellido;
-    string dni;
-    string Nacimiento;
     string sexo;
+    string Nacimiento;
     string os; // obra social
     string estado; // internado, fallecido, nc
 }
@@ -96,14 +96,14 @@ tm conversion(string consulta);                               //Convierte una va
 
 float fecha(string fecha);                                   //Retorna en años la diferencia entre 2 fechas
 
-void resize_P(Paciente* &array_pacientes, int &tam_P);                      //Incrementa la dimension de la lista para tipos Paciente
+void resize_P(Paciente *&array_pacientes, int &tam_P);                      //Incrementa la dimension de la lista para tipos Paciente
 
-void resize_C(Consulta* array_consultas, int tam_cons);    //Incrementa la dimension de la lista para tipos Consulta
+void resize_C(Consulta *&array_consultas, int &tam_cons);    //Incrementa la dimension de la lista para tipos Consulta
 
-void resize_M(Medico* array_medicos, int tam_med);           //Incrementa la dimension de la lista para tipos Medico
+void resize_M(Medico *&array_medicos, int &tam_med);           //Incrementa la dimension de la lista para tipos Medico
 
-void resize_c(Contacto* array_contactos, int tam_cont);
+void resize_c(Contacto *&array_contactos, int &tam_cont);
 
-void resize_PF(paciente_full* array_pacientes, int tam_P);
+void resize_PF(paciente_full *&array_pacientes, int &tam_P);
 
 void Imprimir_P(Paciente array_pacientes, int tam_P);

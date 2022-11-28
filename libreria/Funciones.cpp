@@ -6,75 +6,95 @@
 
 void resize_P(Paciente* &array_pacientes, int &tam_P) // incrementa la dimension de 1 en 1 del array
 {
-    Paciente* array_paciente_aux = new Paciente[tam_P + 1];  // icremento de a 1
+    tam_P++;
 
-    //array_paciente_aux = NULL;
+    Paciente *array_paciente_aux = new Paciente [tam_P];  // icremento de a 1
 
-    for (int i = 0; i < tam_P; i++) // en la ultima posicion se agrega una mas, se redimensiona
+    //array_paci
+
+    for (int i = 0; i < tam_P-1; i++) // en la ultima posicion se agrega una mas, se redimensiona
     {
-        *(array_paciente_aux + i) = *(array_pacientes + i);
+        array_paciente_aux[i] = array_pacientes[i];
     }
+
+    delete[] array_pacientes;
 
     array_pacientes = array_paciente_aux;
 
-    delete[] array_paciente_aux; // libero memoria 
+    
 
 } // aumenta dimension de pacientes  
 
-void resize_C(Consulta* array_consultas, int tam_cons)
+void resize_C(Consulta *&array_consultas, int &tam_cons)
 {
-    Consulta* array_consultas_aux = new Consulta[tam_cons + 1];
 
-    for (int i = 0; i < tam_cons; i++)
+    tam_cons++;
+
+    Consulta* array_consultas_aux = new Consulta[tam_cons];
+
+    for (int i = 0; i < tam_cons-1; i++)
     {
         array_consultas_aux[i] = array_consultas[i];
     }
 
-
+    delete[] array_consultas;
+    
     array_consultas = array_consultas_aux;
 
     delete[] array_consultas;
 } // aumenta dimension de consultas
 
-void resize_c(Contacto* array_contactos, int tam_cont) {
+void resize_c(Contacto *&array_contactos, int &tam_cont) {
 
-    Contacto* array_contacto_aux = new Contacto[tam_cont + 1];  // icremento de a 1
+    tam_cont++;
 
-    for (int i = 0; i < tam_cont; i++) // en la ultima posicion se agrega una mas, se redimensiona
+    Contacto* array_contacto_aux = new Contacto[tam_cont];  // icremento de a 1
+
+    for (int i = 0; i < tam_cont-1; i++) // en la ultima posicion se agrega una mas, se redimensiona
     {
         array_contacto_aux[i] = array_contactos[i];
     }
 
+    delete[] array_contactos;
+    
     array_contactos = array_contacto_aux;
 
     delete[] array_contacto_aux; // libero memoria 
 
 }
 
-void resize_M(Medico* array_medicos, int tam_med) {
+void resize_M(Medico *&array_medicos, int &tam_med) {
 
-    Medico* array_medicos_aux = new Medico[tam_med + 1];  // icremento de a 1
+    tam_med++;
+    
+    Medico* array_medicos_aux = new Medico[tam_med];  // icremento de a 1
 
     for (int i = 0; i < tam_med; i++) // en la ultima posicion se agrega una mas, se redimensiona
     {
         array_medicos_aux[i] = array_medicos[i];
     }
 
+    delete[] array_medicos;
+    
     array_medicos = array_medicos_aux;
 
     delete[] array_medicos_aux; // libero memoria 
 
 }
 
-void resize_PF(paciente_full* array_pacientes, int tam_P) // incrementa la dimension de 1 en 1 del array
+void resize_PF(paciente_full *&array_pacientes, int &tam_Pf) // incrementa la dimension de 1 en 1 del array
 {
-    paciente_full* array_paciente_aux = new paciente_full[tam_P + 1];  // icremento de a 1
+    tam_Pf++;
+    
+    paciente_full* array_paciente_aux = new paciente_full[tam_Pf];  // icremento de a 1
 
-    for (int i = 0; i < tam_P; i++) // en la ultima posicion se agrega una mas, se redimensiona
+    for (int i = 0; i < tam_Pf-1; i++) // en la ultima posicion se agrega una mas, se redimensiona
     {
         array_paciente_aux[i] = array_pacientes[i];
     }
 
+    delete[] array_pacientes;
+    
     array_pacientes = array_paciente_aux;
 
     delete[] array_paciente_aux; // libero memoria 
@@ -325,7 +345,7 @@ void Retornan(Paciente* lista_menos10, int tam_menos10) {
             array_retornan[cont].dni = lista_menos10[i].dni;
             array_retornan[cont].Nombre = lista_menos10[i].Nombre;
             array_retornan[cont].os = lista_menos10[i].os;
-            array_retornan[cont].retorna = true;
+            array_retornan[cont].retorna = "true";
 
 
         }
