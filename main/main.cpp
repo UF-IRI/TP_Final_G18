@@ -183,9 +183,9 @@ Tambien declaramos listas para clasificarlos segun su estado.
 
     separar_pacientes(array_pacientes, array_consultas, tam_P, tam_cons, lista_mas10, tam_mas10, lista_menos10, tam_menos10);
 
-    //Escribir_Archivados( lista_mas10, tam_mas10, lista_menos10, tam_menos10);
+    Escribir_Archivados( lista_mas10, tam_mas10, lista_menos10, tam_menos10);
 
-    //Retornan(lista_menos10, tam_menos10);
+    Retornan(lista_menos10, tam_menos10, array_medicos, tam_med, array_contacto, tam_cont, array_consultas, tam_cons);
 
     //Liberamos toda la memoria que utilizamos.
 

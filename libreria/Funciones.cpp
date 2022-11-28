@@ -102,15 +102,68 @@ void resize_PF(paciente_full *&array_pacientes, int &tam_Pf) // incrementa la di
 
 tm conversion(string consulta)
 {
-    fstream Fecha_str(consulta);
-
     int Dia = 0;
     int Mes = 0;
     int Año = 0;
+    int i = 0;
+    int cont = 0;
+    int cant = consulta.length();
+    int aux1;
+    int aux2;
 
-    string separador = "/";
 
-    Fecha_str >> Dia >> separador >> Mes >> separador >> Año;
+
+    for (i = 0; i < consulta.length(); i++) {
+
+        if (consulta[i] == '/' && cont == 0) {
+
+            if (i == 2) {
+
+                aux1 = consulta[0] - 48;
+                aux2 = consulta[1] - 48;
+
+                Dia = (aux1 * 10) + aux2;
+
+            }
+
+            if (i == 1) {
+                Dia = (consulta[0] - 48);
+            }
+            i++;
+            cont++;
+        }
+        if (consulta[i] == '/' && cont == 1) {
+
+            if (consulta[i - 3] == '/') {
+
+                aux1 = consulta[i - 2] - 48;
+                aux2 = consulta[i - 1] - 48;
+
+                Mes = (aux1 * 10) + aux2;
+
+
+            }
+
+            if (consulta[i - 2] == '/')Mes = consulta[i - 1] - 48;
+            cont++;
+
+        }
+        if (consulta[i] == '/' && cont == 2) {
+
+            aux1 = consulta[i + 1] - 48;
+            aux1 = consulta[i + 2] - 48;
+            aux1 = consulta[i + 3] - 48;
+            aux1 = consulta[i + 4] - 48;
+
+            Año = ((consulta[i + 1] - 48) * 1000) + ((consulta[i + 2] - 48) * 100) + ((consulta[i + 3] - 48) * 10) + (consulta[i + 4] - 48);
+
+            break;
+        }
+
+    }
+
+
+
 
     tm Fecha_tm;
 
@@ -148,21 +201,22 @@ void CopyArray_Paciente(Paciente *&Lista1, int Tam, Paciente *Lista2, int Pos) {
 float fecha(string fecha)
 {
     tm Fecha = conversion(fecha); // primero convierto de string a tm 
-    time_t auxiliar_fecha = time(0);
+    time_t auxiliar_fecha = time(nullptr);
 
     tm* hoy = localtime(&auxiliar_fecha);
 
+
     tm fecha_hoy;
 
-    fecha_hoy.tm_mday = hoy->tm_mday;
-    fecha_hoy.tm_mon = hoy->tm_mon;
-    fecha_hoy.tm_year = hoy->tm_year;
+    fecha_hoy.tm_mday = 28;            //Seteamos la fecha actual a mano porque lee mal la de windows
+    fecha_hoy.tm_mon = 11;
+    fecha_hoy.tm_year = 2022;
 
-    float dif = 0;
+    int dif = 0;
 
-    time_t aux_fin = mktime(&fecha_hoy);
-    time_t aux_inicio = mktime(&Fecha);
-    dif = difftime(aux_fin, aux_inicio) / (3153600);
+
+
+    dif = fecha_hoy.tm_year - Fecha.tm_year;
 
     return dif; // retorna la diferencia ( en anios) 
 
@@ -204,9 +258,9 @@ void separar_pacientes(Paciente* array_pacientes, Consulta* array_consultas, int
                 {
                     
 
-                    resize_P(Lista_menos10, tam_mas10);
+                    resize_P(Lista_menos10, tam_menos10);
 
-                    CopyArray_Paciente(Lista_menos10, tam_mas10, array_pacientes, i);
+                    CopyArray_Paciente(Lista_menos10, tam_menos10, array_pacientes, i);
 
                 }
 
@@ -223,14 +277,13 @@ void separar_pacientes(Paciente* array_pacientes, Consulta* array_consultas, int
 
 
                 if (diferencia > 10 && array_consultas[j].Asistencia == "0")  //Solo guardamos los pacientes que no asistieron
-                    //Para intentar recuperarlos posteriormente
+                                                                             //Para intentar recuperarlos posteriormente
                 {
 
-                    resize_P(Lista_mas10, tam_menos10);
+                    resize_P(Lista_mas10, tam_mas10);
 
-                    CopyArray_Paciente(Lista_mas10, tam_menos10, array_pacientes, i);
+                    CopyArray_Paciente(Lista_mas10, tam_mas10, array_pacientes, i);
 
-                    Lista_mas10[tam_menos10-1].estado = "Archivado";
 
                 }
 
@@ -257,28 +310,28 @@ void separar_pacientes(Paciente* array_pacientes, Consulta* array_consultas, int
     cout << endl;
     cout << endl;
 
-    if (n1 > 0 && n1 < 3)Imprimir_P(falso_archivado, n1);
+    if (Tam_P_Inactivo > 0 && Tam_P_Inactivo < 3)Imprimir_P(Paciente_Inactivo, Tam_P_Inactivo);
 
-    if(n1 > 0)Imprimir_P(falso_archivado, 3);
+    if(Tam_P_Inactivo > 0)Imprimir_P(Paciente_Inactivo, 3);
 
     else  cout << "NO HAY PACIENTES." << endl;;
 
-    cout << "----- LISTA DE PACIENTES RESPONSABLES QUE ASISTEN A SUS CONSULTAS -----" << endl;
+    cout << "----- LISTA DE PACIENTES ACTIVOS -----" << endl;
     cout << endl;
     cout << endl;
 
-    if (n2 > 0 && n2 < 3)Imprimir_P(si_fue_menos10, 3);
+    if (Tam_P_Activo > 0 && Tam_P_Activo < 3)Imprimir_P(Paciente_Activo, 3);
 
-    if (n2 > 0)Imprimir_P(si_fue_menos10, 3);
+    if (Tam_P_Activo > 0)Imprimir_P(Paciente_Activo, 3);
 
     else  cout << "NO HAY PACIENTES." << endl;;
     
-    delete[] si_fue_menos10;
-    delete[] falso_archivado;
+    delete[] Paciente_Inactivo;
+    delete[] Paciente_Activo;
 }
 
 
-void Escribir_Archivados(Paciente* Lista_mas10, int tam_mas10, Paciente* Lista_menos10, int tam_menos10) {
+void Escribir_Archivados(Paciente *Lista_mas10, int tam_mas10, Paciente* Lista_menos10, int tam_menos10) {
 
 
     int i = 0;
@@ -293,88 +346,112 @@ void Escribir_Archivados(Paciente* Lista_mas10, int tam_mas10, Paciente* Lista_m
 
     for (i = 0; i < tam_mas10; i++) {
 
+        resize_P(array_archivados, cont);
 
-        if (Lista_mas10[i].estado == "Archivado") {
+        CopyArray_Paciente(array_archivados, cont, Lista_mas10, i);
 
-            resize_P(array_archivados, cont);
+    }
+    for (i = 0; i < tam_menos10; i++) {
 
-            array_archivados[cont] = Lista_mas10[i];
 
-            cont++;
-
-        }
-        if (Lista_menos10[i].estado == "fallecido") {
+        if(Lista_menos10[i].estado == "fallecido"){
 
             resize_P(array_archivados, cont);
 
-            array_archivados[cont] = Lista_menos10[i];
-
-            cont++;
-
+            CopyArray_Paciente(array_archivados, cont, Lista_menos10, i);
+        
         }
     }
 
+    cout << "Inicio de protocolo de archivamiento de pacientes..." << endl;
+
+    cout << "Se archivaran: " << cont << " pacientes." << endl;
 
 
     ofstream Outdata1;
 
-    Outdata1.open("ARCHIVADOS.csv", ios::out);
+    if (cont > 0) {
 
-    Outdata1 << "dni , nombre , apellido , sexo , natalicio , estado , id_os" << endl;
+        Outdata1.open("ARCHIVADOS.csv", ios::out);
 
-    for (i = 0; i < cont; i++) {
+        Outdata1 << "DNI , Nombre , Apellido , Sexo , Nacimiento , Estado , ObraSocial" << endl;
 
-        Outdata1 << array_archivados[i].Apellido << coma << array_archivados[i].dni << coma <<
-            array_archivados[i].estado << coma << array_archivados[i].Nacimiento << coma <<
-            array_archivados[i].Nombre << coma << array_archivados[i].os << coma <<
-            array_archivados[i].sexo << coma << "(Archivado)";
+        for (i = 0; i < cont; i++) {
+
+            Outdata1 << array_archivados[i].dni << coma << array_archivados[i].Nombre << coma
+                << array_archivados[i].Apellido << coma << array_archivados[i].sexo << coma <<
+                array_archivados[i].Nacimiento << coma << array_archivados[i].estado << coma
+                << array_archivados[i].os << "\n";
+        }
+
+        delete[] array_archivados;
+
+        Outdata1.close();
+
+        cout << "Los pacientes fueron archivados correctamente." << endl;
     }
-
-    delete[] array_archivados;
-
-    Outdata1.close();
+    else cout << "Cantidad de pacientes para archivar invalida." << endl;
 }
 
 
-void Retornan(Paciente* lista_menos10, int tam_menos10) {
+void Retornan(Paciente *lista_menos10, int tam_menos10, Medico *array_medicos, int tam_med, Contacto *array_contacto,  int tam_cont, Consulta* array_consultas, int tam_cons) {
 
 
     int i = 0;
+    int Doc = -1;
+    int Phone = -1;
 
     char coma = ',';
 
     int cont = 0;
+    int cont2 = 0;
     int opcion = 0;
+    int opcion2 = 0;
 
     paciente_full* array_retornan = new paciente_full[cont];
 
     ofstream Outdata2;
 
-    Outdata2.open("RETORNAN.csv", ios::out);
-
     for (i = 0; i < tam_menos10; i++) {
 
         opcion = rand() % 2;  //Emulamos el momento en que llaman para preguntarle si vuelve
 
+        opcion2 = rand() % 6;  //Y si la obra social
+
+        //Hacer un swicht case con a cual de las 6 obras social se cambio y implementar ese cambio aca abajo
+
         if (lista_menos10[i].estado == "n/c" && opcion == 1) {
+
+            Doc = BuscarMedico(lista_menos10[i].dni, array_medicos, tam_med, array_consultas, tam_cons);
+
+            //Hacer una funcion que si el medico no esta en actividad encuentre otro de la misma especialidad para 
+            //Asignarle
+            //Tambien agregarle un filtro para que si los buscadores retornan -1 avisen que lo que se esta buscando no existe
+
+            Phone = BuscarContacto(lista_menos10[i].dni, array_contacto, tam_cont);
 
             resize_PF(array_retornan, cont);
 
-            array_retornan[cont].Apellido = lista_menos10[i].Apellido;
-            array_retornan[cont].dni = lista_menos10[i].dni;
-            array_retornan[cont].Nombre = lista_menos10[i].Nombre;
-            array_retornan[cont].os = lista_menos10[i].os;
-            array_retornan[cont].retorna = "true";
+            paciente_full* Aux = new paciente_full[cont];
+
+            array_retornan[cont - 1].dni = lista_menos10[i].dni;
+            array_retornan[cont - 1].Nombre = lista_menos10[i].Nombre;
+            array_retornan[cont - 1].Apellido = lista_menos10[i].Apellido;
+            array_retornan[cont - 1].Telefono = array_contacto[Phone].celular;
+            array_retornan[cont - 1].medico.matricula = array_medicos[Doc].matricula;
+            array_retornan[cont - 1].medico.teldoc = array_medicos[Doc].teldoc;
+            array_retornan[cont - 1].medico.nombre = array_medicos[Doc].nombre;
+            array_retornan[cont - 1].medico.apellido = array_medicos[Doc].apellido;
+            array_retornan[cont - 1].medico.especialidad = array_medicos[Doc].especialidad;
+            array_retornan[cont - 1].medico.actividad = array_medicos[Doc].actividad;
+            array_retornan[cont - 1].os = lista_menos10[i].os;
+            array_retornan[cont - 1].retorna = "Si";
 
 
         }
         if (lista_menos10[i].estado == "n/c" && opcion == 0) {
 
-            array_retornan[cont].Apellido = lista_menos10[i].Apellido;
-            array_retornan[cont].dni = lista_menos10[i].dni;
-            array_retornan[cont].Nombre = lista_menos10[i].Nombre;
-            array_retornan[cont].os = lista_menos10[i].os;
-            array_retornan[cont].retorna = "false";
+            cont2++;
         }
 
 
@@ -382,17 +459,75 @@ void Retornan(Paciente* lista_menos10, int tam_menos10) {
 
     }
 
-    for (i = 0; i < cont; i++) {
+    cout << "\nEsperando a que administracion se comunique con los pacientes..." << endl;
+    cout << "Nueva lista de pacientes recibida." << endl;
+    cout << "Catalogando pacientes...\n" << endl;
+    cout << "La cantidad de pacientes que no asistiran es de: " << cont2 << endl;
+    cout << "La cantidad de pacientes que volveran es de: " << cont << endl;
 
-        Outdata2 << array_retornan[i].Apellido << coma << array_retornan[i].dni << coma <<
-            array_retornan[i].medico << coma << array_retornan[i].Nombre << coma <<
-            array_retornan[i].os << coma << array_retornan[i].retorna << coma;
+    if (cont > 0) {
+
+        Outdata2.open("RETORNAN.csv", ios::out);
+
+        Outdata2 << "DNI" << coma << "Nombre" << coma << "Apellido" << coma << "Telefono" << coma << "Matricula_Medico" << coma
+            << "Telefono_Medico" << coma << "Nombre_Medico" << coma << "Apellido_Medico" << coma << "Especialidad_Medico" << coma
+            << "Actividad_Medico" << coma << "ObraSocial" << coma << "Retornan" << endl;
+
+
+
+
+        for (i = 0; i < cont; i++) {
+
+            Outdata2 << array_retornan[i].dni << coma << array_retornan[i].Nombre << coma << array_retornan[i].Apellido << coma << array_retornan[i].Telefono
+                << coma << array_retornan[i].medico.matricula << coma << array_retornan[i].medico.teldoc << coma << array_retornan[i].medico.nombre
+                << coma << array_retornan[i].medico.apellido << coma << array_retornan[i].medico.especialidad << coma
+                << array_retornan[i].medico.actividad << coma << array_retornan[i].os << coma << array_retornan[i].retorna << endl;
+
+        }
+
+        Outdata2.close();
     }
+    else cout << "No hay pacientes que vuelvan, por lo tanto no se generara ningun archivo." << endl;
 
     delete[] array_retornan;
 
-    Outdata2.close();
+}
 
+int BuscarMedico(string DNI, Medico* array_medicos, int tam_med, Consulta* array_consultas, int tam_cons) {
+
+    int i = 0;
+    int j = 0;
+
+    for(i=0;i<tam_cons;i++){
+
+        if (DNI == array_consultas[i].dni_1) {
+
+            for (j = 0; j < tam_med; j++) {
+
+                if (array_consultas[i].matricula == array_medicos[j].matricula) {
+
+                    return j;
+                }
+            }
+
+        }
+    
+    }
+    return -1;
+}
+
+
+int BuscarContacto(string DNI, Contacto* array_contacto, int tam_cont) {
+
+    int i = 0;
+    int j = 0;
+
+    for (i = 0; i < tam_cont; i++) {
+
+        if (DNI == array_contacto[i].dni) return i;
+
+    }
+    return -1;
 }
 
 

@@ -66,7 +66,7 @@ typedef struct
     string Nombre;
     string Apellido;
     string Telefono;
-    Medico *medico;
+    Medico medico;
     string os; // obra social
     string retorna; // si el paciente retorna o no. 
 
@@ -81,7 +81,7 @@ paciente_full;          // Estructura para guardar todos los datos del paciente
 
 void Escribir_Archivados(Paciente* Lista_mas10, int tam_mas10, Paciente* Lista_menos10, int tam_menos10);
 
-void Retornan(Paciente* lista_menos10, int tam_menos10);
+void Retornan(Paciente* lista_menos10, int tam_menos10, Medico* array_medicos, int tam_med, Contacto* array_contacto, int tam_cont, Consulta* array_consultas, int tam_cons);
 
 //void Escribir_Retornan(Paciente* Lista_mas10, int tam_mas10);
 
@@ -108,6 +108,10 @@ void resize_M(Medico *&array_medicos, int &tam_med);           //Incrementa la d
 void resize_c(Contacto *&array_contactos, int &tam_cont);
 
 void resize_PF(paciente_full *&array_pacientes, int &tam_P);
+
+int BuscarMedico(string DNI, Medico* array_medicos, int tam_med, Consulta* array_consultas, int tam_cons);
+
+int BuscarContacto(string DNI, Contacto* array_contacto, int tam_cont);
 
 //Funciones para imprimir tipos de listas (es un extra para hacer pruebas y chekeos)
 
