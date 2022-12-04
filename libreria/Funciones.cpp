@@ -4,26 +4,25 @@
 
 
 
-void resize_P(Paciente* &array_pacientes, int &tam_P) // incrementa la dimension de 1 en 1 del array
+void resize_P(Paciente* &array_pacientes, int &tam_P) 
 {
-    tam_P++;
+    tam_P++; //Incrementamos en 1 la variable que tiene la diemension de la lista
 
-    Paciente *array_paciente_aux = new Paciente [tam_P];  // icremento de a 1
+    Paciente *array_paciente_aux = new Paciente [tam_P];  //Utilizamos una lista del tipo como auxiliar con 1 espacio 
+                                                         // que la anterior
 
-    //array_paci
-
-    for (int i = 0; i < tam_P-1; i++) // en la ultima posicion se agrega una mas, se redimensiona
+    for (int i = 0; i < tam_P-1; i++)      //Copiamos componente a componente los datos de la lista 
     {
         array_paciente_aux[i] = array_pacientes[i];
     }
 
-    delete[] array_pacientes;
+    delete[] array_pacientes;             //Libramos la memoria de la lista vieja 
 
-    array_pacientes = array_paciente_aux;
+    array_pacientes = array_paciente_aux;  //Asignamos la direccion de memoria de la lista auxiliar a nuesta lista
 
     
 
-} // aumenta dimension de pacientes  
+}   
 
 void resize_C(Consulta *&array_consultas, int &tam_cons)
 {
@@ -42,15 +41,15 @@ void resize_C(Consulta *&array_consultas, int &tam_cons)
     array_consultas = array_consultas_aux;
 
     
-} // aumenta dimension de consultas
+} 
 
 void resize_c(Contacto *&array_contactos, int &tam_cont) {
 
     tam_cont++;
 
-    Contacto* array_contacto_aux = new Contacto[tam_cont];  // icremento de a 1
+    Contacto* array_contacto_aux = new Contacto[tam_cont];
 
-    for (int i = 0; i < tam_cont-1; i++) // en la ultima posicion se agrega una mas, se redimensiona
+    for (int i = 0; i < tam_cont-1; i++) 
     {
         array_contacto_aux[i] = array_contactos[i];
     }
@@ -65,9 +64,9 @@ void resize_M(Medico *&array_medicos, int &tam_med) {
 
     tam_med++;
     
-    Medico* array_medicos_aux = new Medico[tam_med];  // icremento de a 1
+    Medico* array_medicos_aux = new Medico[tam_med]; 
 
-    for (int i = 0; i < tam_med-1; i++) // en la ultima posicion se agrega una mas, se redimensiona
+    for (int i = 0; i < tam_med-1; i++)
     {
         array_medicos_aux[i] = array_medicos[i];
     }
@@ -76,17 +75,15 @@ void resize_M(Medico *&array_medicos, int &tam_med) {
     
     array_medicos = array_medicos_aux;
 
-    
-
 }
 
-void resize_PF(paciente_full *&array_pacientes, int &tam_Pf) // incrementa la dimension de 1 en 1 del array
+void resize_PF(paciente_full *&array_pacientes, int &tam_Pf) 
 {
     tam_Pf++;
     
-    paciente_full* array_paciente_aux = new paciente_full[tam_Pf];  // icremento de a 1
+    paciente_full* array_paciente_aux = new paciente_full[tam_Pf];  
 
-    for (int i = 0; i < tam_Pf-1; i++) // en la ultima posicion se agrega una mas, se redimensiona
+    for (int i = 0; i < tam_Pf-1; i++) 
     {
         array_paciente_aux[i] = array_pacientes[i];
     }
@@ -97,7 +94,7 @@ void resize_PF(paciente_full *&array_pacientes, int &tam_Pf) // incrementa la di
 
     
 
-} // aumenta dimension de pacientes  
+}  
 
 
 tm conversion(string consulta)
@@ -107,35 +104,35 @@ tm conversion(string consulta)
     int Año = 0;
     int i = 0;
     int cont = 0;
-    int cant = consulta.length();
+    int cant = consulta.length();   //La cantidad de caracteres que tiene la fecha
     int aux1;
     int aux2;
 
 
 
-    for (i = 0; i < consulta.length(); i++) {
+    for (i = 0; i < consulta.length(); i++) {         //Recorremos 1 a 1 los caraceteres de la fecha
 
-        if (consulta[i] == '/' && cont == 0) {
+        if (consulta[i] == '/' && cont == 0) {       //Reconocemos el dia por la primera vez que encontramos la barra
 
-            if (i == 2) {
+            if (i == 2) {                            //Nos fijamos cuantas cifras tiene el dia
 
-                aux1 = consulta[0] - 48;
-                aux2 = consulta[1] - 48;
+                aux1 = consulta[0] - 48;             //Como es un string se toma el valor ASCII por lo que le restamos 48
+                aux2 = consulta[1] - 48;             //Para que tome el valor del numero
 
-                Dia = (aux1 * 10) + aux2;
-
+                Dia = (aux1 * 10) + aux2;           //En este caso como es de 2 cifras la primera la multiplicamos x10
+                                                    //Para sumarla y que quede igual
             }
 
-            if (i == 1) {
+            if (i == 1) {                          //Mismo procedimiento para una cifra
                 Dia = (consulta[0] - 48);
             }
             i++;
             cont++;
         }
-        if (consulta[i] == '/' && cont == 1) {
+        if (consulta[i] == '/' && cont == 1) {     //Con la segunda barra detectamos que es un mes
 
-            if (consulta[i - 3] == '/') {
-
+            if (consulta[i - 3] == '/') {        //Vamos hacia atras buscando la primera barra para ver cuantas cifras 
+                                                // tiene el mes
                 aux1 = consulta[i - 2] - 48;
                 aux2 = consulta[i - 1] - 48;
 
@@ -144,12 +141,12 @@ tm conversion(string consulta)
 
             }
 
-            if (consulta[i - 2] == '/')Mes = consulta[i - 1] - 48;
+            if (consulta[i - 2] == '/')Mes = consulta[i - 1] - 48;   
             cont++;
 
         }
-        if (consulta[i] == '/' && cont == 2) {
-
+        if (consulta[i] == '/' && cont == 2) {                  //Cuando detectamos la tercera barra ya sabemos 
+                                                               //Que los proximos 4 digitos son el año
             aux1 = consulta[i + 1] - 48;
             aux1 = consulta[i + 2] - 48;
             aux1 = consulta[i + 3] - 48;
@@ -157,53 +154,53 @@ tm conversion(string consulta)
 
             Año = ((consulta[i + 1] - 48) * 1000) + ((consulta[i + 2] - 48) * 100) + ((consulta[i + 3] - 48) * 10) + (consulta[i + 4] - 48);
 
-            break;
+            break; //Ya tenemos los el dia mes y año asignado por lo que dejamos de leer
         }
 
     }
+    
 
 
 
+    tm Fecha_tm;             //Declaramos una fecha de tipo tm
 
-    tm Fecha_tm;
-
-    Fecha_tm.tm_mday = Dia;
+    Fecha_tm.tm_mday = Dia;  //Le asignamos los datos que recopilamos del string
     Fecha_tm.tm_mon = Mes;
     Fecha_tm.tm_year = Año;
 
-    return Fecha_tm;
+    return Fecha_tm;           //retornamos la fecha en tm
 
 }
 
 
 void CopyArray_Paciente(Paciente *&Lista1, int Tam, Paciente *Lista2, int Pos) {
 
-    Paciente* Aux = new Paciente[Tam];
+    Paciente* Aux = new Paciente[Tam];         //Utilizamos una lista de tipo como axuliar
 
     int i = 0;
 
-    for (i = 0; i < Tam ; i++) {
+    for (i = 0; i < Tam ; i++) {           //copiamos las listas componente a componente
 
         Aux[i] = Lista1[i];
 
     }
 
-    Aux[Tam-1] = Lista2[Pos];
+    Aux[Tam-1] = Lista2[Pos];           //Copiamos hasta la posicion del array que necesitabamos y dejamos el ultimo 
+                                        //espacio de memoria libre
+    delete[] Lista1;                   //Liberamos la memoria del la lista a la que queremos copiar
 
-    delete[] Lista1;
-
-    Lista1 = Aux;
+    Lista1 = Aux;                     //Asignamos la memoria de la lista auxiliar a la lista que queriamos copiar
 
 }
 
 
-
 float fecha(string fecha)
 {
-    tm Fecha = conversion(fecha); // primero convierto de string a tm 
-    time_t auxiliar_fecha = time(nullptr);
+    tm Fecha = conversion(fecha);             //Convertimos la fecha de string a tm
 
-    tm* hoy = localtime(&auxiliar_fecha);
+    time_t auxiliar_fecha = time(nullptr);   //Inicializamos una fecha axiliar
+
+    tm* hoy = localtime(&auxiliar_fecha);    //Tomamos la fecha actual en el auxiliar
 
 
     tm fecha_hoy;
@@ -216,9 +213,9 @@ float fecha(string fecha)
 
 
 
-    dif = fecha_hoy.tm_year - Fecha.tm_year;
+    dif = fecha_hoy.tm_year - Fecha.tm_year;          //restamos los años
 
-    return dif; // retorna la diferencia ( en anios) 
+    return dif; // retorna la diferencia ( en años) 
 
 }
 
@@ -493,27 +490,28 @@ void Retornan(Paciente *lista_menos10, int tam_menos10, Medico *array_medicos, i
 
 }
 
+
 int BuscarMedico(string DNI, Medico* array_medicos, int tam_med, Consulta* array_consultas, int tam_cons) {
 
     int i = 0;
     int j = 0;
 
-    for(i=0;i<tam_cons;i++){
+    for(i=0;i<tam_cons;i++){                      //Recorremos la lista de consultas
 
-        if (DNI == array_consultas[i].dni_1) {
+        if (DNI == array_consultas[i].dni_1) {    //Buscamos la consulta del paciente filtrando por dni
 
-            for (j = 0; j < tam_med; j++) {
+            for (j = 0; j < tam_med; j++) {      //Recorremos la lista de medicos
 
-                if (array_consultas[i].matricula == array_medicos[j].matricula) {
+                if (array_consultas[i].matricula == array_medicos[j].matricula) {  //Buscamos al medico por matricula
 
-                    return j;
+                    return j;         //Retornamos la posicion de la lista donde esta el medico que queremos
                 }
             }
 
         }
     
     }
-    return -1;
+    return -1;                          //Si no lo encontramos retornamos -1
 }
 
 
@@ -524,10 +522,10 @@ int BuscarContacto(string DNI, Contacto* array_contacto, int tam_cont) {
 
     for (i = 0; i < tam_cont; i++) {
 
-        if (DNI == array_contacto[i].dni) return i;
+        if (DNI == array_contacto[i].dni) return i;       //Recorremos la lista de contacto y filtramos por dni
 
     }
-    return -1;
+    return -1; //-1 si no encontro el dni que le pasamos
 }
 
 

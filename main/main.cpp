@@ -40,10 +40,6 @@ Tambien declaramos listas para clasificarlos segun su estado.
 
     Paciente* lista_menos10 = new Paciente[tam_menos10];
 
-    Paciente* array_perdidos = new Paciente[tam_per];
-
-    Paciente* array_fallecidos = new Paciente[tam_fall];
-
 
     /*
     Listas de tipo consulta:
@@ -84,70 +80,74 @@ Tambien declaramos listas para clasificarlos segun su estado.
     ifstream Indatac;
     ifstream IndataM;
 
+#pragma region Lectura Paciente 
+
     //Lectura de pacientes:
+
+    //Abrimos el Archivo de pacientes y salteamos el encabezado
 
     IndataP.open(Archivo_P, ios::in);
 
     IndataP >> dummy >> coma >> dummy >> coma >> dummy >> coma >> dummy >> coma >> dummy >> coma >> dummy >> coma >> dummy;
 
-    while (IndataP) // reviso que el archivo sea distinto de end of file
+    while (IndataP) //Recorremos todo el archivo fila a fila y guardamos los datos de cada una donde corresponde
     {
 
-        resize_P(array_pacientes, tam_P);
+        resize_P(array_pacientes, tam_P); //Por cada nuevo elemento redimensionamos la lista en 1
 
-        // hago el resize ya que no se la cantidad de personas en la lista
 
         IndataP >> array_pacientes[i].dni >> coma >> array_pacientes[i].Nombre >> coma
             >> array_pacientes[i].Apellido >> coma >> array_pacientes[i].sexo >> coma >>
             array_pacientes[i].Nacimiento >> coma >> array_pacientes[i].estado >> coma
-            >> array_pacientes[i].os;
-        // guardo a medida que voy leyendo en mi lista 
-        
+            >> array_pacientes[i].os; 
 
-        i++; // incremento las iteraciones ! 
+        i++;
 
     }
-    IndataP.close(); // cierro el archivo 
+    IndataP.close(); // cierramos el archivo 
 
-    
+#pragma endregion
 
+
+#pragma region Lectura Contacto
 //Lectura de datos de contacto:
 
-    Indatac.open(Archivo_c, ios::in);  // abro el archivo en modo lectura
+    Indatac.open(Archivo_c, ios::in);  
 
     Indatac >> dummy >> coma >> dummy >> coma >> dummy >> coma >> dummy >> coma >> dummy;
 
     i = 0;
 
-    while (Indatac) // reviso que el archivo sea distinto de end of file
+    while (Indatac) 
     {
 
         resize_c(array_contacto, tam_cont);
-        // hago el resize ya que no se la cantidad de personas en la lista
-
+        
         Indatac >> array_contacto[i].dni >> coma >> array_contacto[i].Telefono >> coma >> array_contacto[i].celular >> coma >> array_contacto[i].Direccion >> coma >> array_contacto[i].Mail;
-        // guardo a medida que voy leyendo en mi lista 
+        
 
-        i++; // incremento las iteraciones ! 
+        i++; 
 
     }
-    Indatac.close(); // cierro el archivo 
+    Indatac.close(); 
 
-    
+#pragma endregion
 
+
+#pragma region Lectura Consultas
  //Lectura de Consultas:
 
-    IndataC.open(Archivo_C, ios::in); // abro el archivo de consultas en modo lectura 
+    IndataC.open(Archivo_C, ios::in);
 
     i = 0;
 
-    while (IndataC) // mientras que el archivo sea distinto del final 
+    while (IndataC) 
     {
-        IndataC >> dummy >> coma >> dummy >> coma >> dummy >> coma >> dummy >> coma >> dummy; // salteo encabezado
+        IndataC >> dummy >> coma >> dummy >> coma >> dummy >> coma >> dummy >> coma >> dummy; 
 
         resize_C(array_consultas, tam_cons);
 
-        // hago el resize ya que no se la cantidad de personas en la lista 
+        
 
         IndataC >> array_consultas[i].dni_1 >> coma >> array_consultas[i].fecha_solicitado >> coma
             >> array_consultas[i].fecha_consulta >> coma >> array_consultas[i].Asistencia >> coma >> array_consultas[i].matricula;
@@ -155,22 +155,25 @@ Tambien declaramos listas para clasificarlos segun su estado.
         i++;
 
     }
-    IndataC.close(); // cierro el archivo 
+    IndataC.close();  
+
+#pragma endregion
 
 
+#pragma region Lectura Medicos
 //Leemos datos de los medicos:
 
-    IndataM.open(Archivo_M, ios::in); // abro el archivo de consultas en modo lectura 
+    IndataM.open(Archivo_M, ios::in); 
 
     i = 0;
 
-    while (IndataM) // mientras que el archivo sea distinto del final 
+    while (IndataM) 
     {
-        IndataM >> dummy >> coma >> dummy >> coma >> dummy >> coma >> dummy >> coma >> dummy >> coma >> dummy; // salteo encabezado
+        IndataM >> dummy >> coma >> dummy >> coma >> dummy >> coma >> dummy >> coma >> dummy >> coma >> dummy; 
 
         resize_M(array_medicos, tam_med);
 
-        // hago el resize ya que no se la cantidad de docs en la lista 
+        
 
         IndataM >> array_medicos[i].matricula >> coma >> array_medicos[i].nombre >> coma
             >> array_medicos[i].apellido >> coma >> array_medicos[i].teldoc >> coma >> array_medicos[i].especialidad >> coma
@@ -178,25 +181,36 @@ Tambien declaramos listas para clasificarlos segun su estado.
 
         i++;
 
-    } // ya tengo mi lista de doctores cargada 
-    IndataM.close(); // cierro el archivo 
+    } 
+    IndataM.close(); 
 
+#pragma endregion
+
+                                               //Inicio de Desarrollo\\
+
+    //Separamos los pacientes por +/- 10 años e imprimimos los pacientes activos e inactivos:
+    
     separar_pacientes(array_pacientes, array_consultas, tam_P, tam_cons, lista_mas10, tam_mas10, lista_menos10, tam_menos10);
 
+    //Creamos el archivo donde se encuentran todos los pacientes archivados:
+    
     Escribir_Archivados( lista_mas10, tam_mas10, lista_menos10, tam_menos10);
+
+    // Creamos un reporte de todos los paciente potenciales a ser recuperados, simulamos el contacto con ellos e imprimos
+    // un reporte con todos los que si vuelven: 
 
     Retornan(lista_menos10, tam_menos10, array_medicos, tam_med, array_contacto, tam_cont, array_consultas, tam_cons);
 
-    //Liberamos toda la memoria que utilizamos.
+    //Liberamos toda la memoria que utilizamos:
 
     delete[] array_pacientes;
     delete[] lista_mas10;
     delete[] lista_menos10;
     delete[] array_consultas;
-    delete[] array_fallecidos;
-    delete[] array_perdidos;
+    delete[] array_medicos;
+    delete[]array_contacto;
 
-    //Fin del codigo
+                                                      //Fin del codigo\\
 
     getchar();
 

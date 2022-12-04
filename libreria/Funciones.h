@@ -36,10 +36,10 @@ typedef struct
     string Apellido;
     string sexo;
     string Nacimiento;
-    string estado; // internado, fallecido, nc
-    string os; // obra social
+    string estado; 
+    string os; 
 }
-Paciente;               //Estructura para leer los pacientes
+Paciente;               
 
 typedef struct
 {
@@ -60,6 +60,8 @@ typedef struct
 }
 Medico;
 
+//Estructura de paciente con los datos que se piden para generar el archivo
+
 typedef struct
 {
     string dni;
@@ -67,11 +69,11 @@ typedef struct
     string Apellido;
     string Telefono;
     Medico medico;
-    string os; // obra social
-    string retorna; // si el paciente retorna o no. 
+    string os; 
+    string retorna;  
 
 }
-paciente_full;          // Estructura para guardar todos los datos del paciente
+paciente_full;
 
 
 
@@ -83,7 +85,6 @@ void Escribir_Archivados(Paciente* Lista_mas10, int tam_mas10, Paciente* Lista_m
 
 void Retornan(Paciente* lista_menos10, int tam_menos10, Medico* array_medicos, int tam_med, Contacto* array_contacto, int tam_cont, Consulta* array_consultas, int tam_cons);
 
-//void Escribir_Retornan(Paciente* Lista_mas10, int tam_mas10);
 
 //Clasificaciones por lista de los pacientes:
 
@@ -97,7 +98,7 @@ tm conversion(string consulta);                               //Convierte una va
 
 float fecha(string fecha);                                   //Retorna en años la diferencia entre 2 fechas
 
-void CopyArray_Paciente(Paciente *&Lista1, int Tam, Paciente *Lista2, int Pos);
+void CopyArray_Paciente(Paciente *&Lista1, int Tam, Paciente *Lista2, int Pos);//copia dos listas dinamicas de tipo paciente
 
 void resize_P(Paciente *&array_pacientes, int &tam_P);                      //Incrementa la dimension de la lista para tipos Paciente
 
@@ -105,13 +106,13 @@ void resize_C(Consulta *&array_consultas, int &tam_cons);    //Incrementa la dim
 
 void resize_M(Medico *&array_medicos, int &tam_med);           //Incrementa la dimension de la lista para tipos Medico
 
-void resize_c(Contacto *&array_contactos, int &tam_cont);
+void resize_c(Contacto *&array_contactos, int &tam_cont);      //Incrementa la dimension de la lista para tipos contacto
 
-void resize_PF(paciente_full *&array_pacientes, int &tam_P);
+void resize_PF(paciente_full *&array_pacientes, int &tam_P);   //Incrementa la dimension de la lista para tipos paciente full
 
-int BuscarMedico(string DNI, Medico* array_medicos, int tam_med, Consulta* array_consultas, int tam_cons);
+int BuscarMedico(string DNI, Medico* array_medicos, int tam_med, Consulta* array_consultas, int tam_cons);  //Busca al medico que atendo a un paciente en su ultima consulta
 
-int BuscarContacto(string DNI, Contacto* array_contacto, int tam_cont);
+int BuscarContacto(string DNI, Contacto* array_contacto, int tam_cont);  //Busca los datos de contacto de un paciente
 
 //Funciones para imprimir tipos de listas (es un extra para hacer pruebas y chekeos)
 
