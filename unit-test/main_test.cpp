@@ -2,6 +2,10 @@
 #include "Funciones.h"
 
 namespace foobar::tests {
+
+	//Testear conversion, fecha, buscar medico y buscar contacto
+
+
 	TEST(leer_pacientes_T1, test1) {
 		
 		string nombre = "IRI_Pacientes.csv";

@@ -108,6 +108,7 @@ tm conversion(string consulta)
     int aux1;
     int aux2;
 
+    // 05/10/2022
 
 
     for (i = 0; i < consulta.length(); i++) {         //Recorremos 1 a 1 los caraceteres de la fecha
@@ -185,7 +186,7 @@ void CopyArray_Paciente(Paciente *&Lista1, int Tam, Paciente *Lista2, int Pos) {
 
     }
 
-    Aux[Tam-1] = Lista2[Pos];           //Copiamos hasta la posicion del array que necesitabamos y dejamos el ultimo 
+    Aux[Tam-1] = Lista2[Pos];           //Se copia el elemento deseado en la ultima posicion  
                                         //espacio de memoria libre
     delete[] Lista1;                   //Liberamos la memoria del la lista a la que queremos copiar
 
@@ -205,15 +206,22 @@ float fecha(string fecha)
 
     tm fecha_hoy;
 
-    fecha_hoy.tm_mday = 28;            //Seteamos la fecha actual a mano porque lee mal la de windows
-    fecha_hoy.tm_mon = 11;
+    fecha_hoy.tm_mday = 5;            //Seteamos la fecha actual a mano porque lee mal la de windows
+    fecha_hoy.tm_mon = 12;
     fecha_hoy.tm_year = 2022;
 
-    int dif = 0;
+    float dif1 = 0;
+    float dif2 = 0;
+    //float dif_D = 0;
+
+    float dif = 0;
 
 
+    dif1 = float(fecha_hoy.tm_year) + (float(fecha_hoy.tm_mon) / 12) + (float(fecha_hoy.tm_mday) / 365);
+    dif2 = float(Fecha.tm_year) + (float(Fecha.tm_mon) / 12) + (float(Fecha.tm_mday) / 365);
 
-    dif = fecha_hoy.tm_year - Fecha.tm_year;          //restamos los años
+    dif = dif1 - dif2;
+
 
     return dif; // retorna la diferencia ( en años) 
 
