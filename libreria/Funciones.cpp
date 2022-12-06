@@ -206,7 +206,7 @@ float fecha(string fecha)
 
     tm fecha_hoy;
 
-    fecha_hoy.tm_mday = 5;            //Seteamos la fecha actual a mano porque lee mal la de windows
+    fecha_hoy.tm_mday = 6;            //Seteamos la fecha actual a mano porque lee mal la de windows
     fecha_hoy.tm_mon = 12;
     fecha_hoy.tm_year = 2022;
 
