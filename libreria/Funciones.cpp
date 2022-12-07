@@ -148,10 +148,6 @@ tm conversion(string consulta)
         }
         if (consulta[i] == '/' && cont == 2) {                  //Cuando detectamos la tercera barra ya sabemos 
                                                                //Que los proximos 4 digitos son el año
-            aux1 = consulta[i + 1] - 48;
-            aux1 = consulta[i + 2] - 48;
-            aux1 = consulta[i + 3] - 48;
-            aux1 = consulta[i + 4] - 48;
 
             Año = ((consulta[i + 1] - 48) * 1000) + ((consulta[i + 2] - 48) * 100) + ((consulta[i + 3] - 48) * 10) + (consulta[i + 4] - 48);
 
@@ -460,8 +456,6 @@ void Retornan(Paciente *lista_menos10, int tam_menos10, Medico *array_medicos, i
 
             resize_PF(array_retornan, cont);
 
-            paciente_full* Aux = new paciente_full[cont];
-
             array_retornan[cont - 1].dni = lista_menos10[i].dni;
             array_retornan[cont - 1].Nombre = lista_menos10[i].Nombre;
             array_retornan[cont - 1].Apellido = lista_menos10[i].Apellido;
@@ -584,30 +578,18 @@ int BuscarMedico(string DNI, Medico* array_medicos, int tam_med, Consulta* array
 
         if (DNI == array_consultas[i].dni_1) {    //Buscamos la consulta del paciente filtrando por dni
 
-            dif1 = fecha(array_consultas[i].fecha_consulta);
+            for (j = 0; j < tam_med; j++) {      //Recorremos la lista de medicos
 
-            if (pos == 0) dif2 = dif1;                     //Nos aseguramos que sea la ultima consulta
+                if (array_consultas[i].matricula == array_medicos[j].matricula) {  //Buscamos al medico por matricula
 
-            if (dif2 >= dif1) {
-
-                pos = i;
-                dif2 = dif1;
+                    return j;         //Retornamos la posicion de la lista donde esta el medico que queremos
+                }
             }
 
         }
     
     }
 
-    if (pos != -1) {                      //Nos aseguramos que haya encontrado una consulta antes de buscar al medico
-
-        for (j = 0; j < tam_med; j++) {      //Recorremos la lista de medicos
-
-            if (array_consultas[pos].matricula == array_medicos[j].matricula) {  //Buscamos al medico por matricula
-
-                return j;         //Retornamos la posicion de la lista donde esta el medico que queremos
-            }
-        }
-    }
     return -1;                          //Si no lo encontramos retornamos -1
 }
 
