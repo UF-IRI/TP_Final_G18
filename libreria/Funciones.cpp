@@ -245,6 +245,8 @@ void separar_pacientes(Paciente* array_pacientes, Consulta* array_consultas, int
 
     string aux;
 
+    int repe = -1;  //Para chekear que no haya pacientes repetidos
+
 
     for (int i = 0; i < tam_P; i++)
 
@@ -262,21 +264,31 @@ void separar_pacientes(Paciente* array_pacientes, Consulta* array_consultas, int
                     //Para intentar recuperarlos posteriormente
                 {
                     
+                    repe = BuscarPaciente(array_pacientes[i].dni, Lista_menos10, tam_menos10);  
 
-                    resize_P(Lista_menos10, tam_menos10);
+                    if (repe == -1) {       //Buscamos si el paciente ya esta en la lista y solo lo agregamos si no esta
 
-                    CopyArray_Paciente(Lista_menos10, tam_menos10, array_pacientes, i);
+                        resize_P(Lista_menos10, tam_menos10);
+
+                        CopyArray_Paciente(Lista_menos10, tam_menos10, array_pacientes, i);
+
+                    }
 
                 }
 
                 if (diferencia < 10 && array_consultas[j].Asistencia == "1")  //Solo guardamos los pacientes que SI asistieron
                     //Para tenerlos catalogados tambien 
                 {
-                    
 
-                    resize_P(Paciente_Activo, Tam_P_Activo);
+                    repe = BuscarPaciente(array_pacientes[i].dni, Paciente_Activo, Tam_P_Activo);
 
-                    CopyArray_Paciente(Paciente_Activo, Tam_P_Activo, array_pacientes, i);
+                    if (repe == -1) {
+
+                        resize_P(Paciente_Activo, Tam_P_Activo);
+
+                        CopyArray_Paciente(Paciente_Activo, Tam_P_Activo, array_pacientes, i);
+
+                    }
 
                 }
 
@@ -284,10 +296,15 @@ void separar_pacientes(Paciente* array_pacientes, Consulta* array_consultas, int
                 if (diferencia > 10 && array_consultas[j].Asistencia == "0")  //Solo guardamos los pacientes que no asistieron
                                                                              //Para intentar recuperarlos posteriormente
                 {
+                    repe = BuscarPaciente(array_pacientes[i].dni, Lista_mas10, tam_mas10);
 
-                    resize_P(Lista_mas10, tam_mas10);
+                    if (repe == -1) {
 
-                    CopyArray_Paciente(Lista_mas10, tam_mas10, array_pacientes, i);
+                        resize_P(Lista_mas10, tam_mas10);
+
+                        CopyArray_Paciente(Lista_mas10, tam_mas10, array_pacientes, i);
+
+                    }
 
 
                 }
@@ -296,10 +313,16 @@ void separar_pacientes(Paciente* array_pacientes, Consulta* array_consultas, int
                                                                              //Para llevar control, no hacer nada con estos pacientes no es opcion ;) 
                 {
 
-                    resize_P(Paciente_Inactivo, Tam_P_Inactivo);
+                    repe = BuscarPaciente(array_pacientes[i].dni, Paciente_Inactivo, Tam_P_Inactivo);
 
-                    
-                    CopyArray_Paciente(Paciente_Inactivo, Tam_P_Inactivo, array_pacientes, i);
+                    if (repe == -1) {
+
+                        resize_P(Paciente_Inactivo, Tam_P_Inactivo);
+
+                        CopyArray_Paciente(Paciente_Inactivo, Tam_P_Inactivo, array_pacientes, i);
+
+                    }
+
 
                 }
 
@@ -421,7 +444,7 @@ void Retornan(Paciente *lista_menos10, int tam_menos10, Medico *array_medicos, i
 
         opcion = rand() % 2;  //Emulamos el momento en que llaman para preguntarle si vuelve
 
-        opcion2 = rand() % 6;  //Y si la obra social
+        opcion2 = rand() % 2;  //El caso en que haya cambiado de obra social
 
         //Hacer un swicht case con a cual de las 6 obras social se cambio y implementar ese cambio aca abajo
 
@@ -442,22 +465,72 @@ void Retornan(Paciente *lista_menos10, int tam_menos10, Medico *array_medicos, i
             array_retornan[cont - 1].dni = lista_menos10[i].dni;
             array_retornan[cont - 1].Nombre = lista_menos10[i].Nombre;
             array_retornan[cont - 1].Apellido = lista_menos10[i].Apellido;
-            array_retornan[cont - 1].Telefono = array_contacto[Phone].celular;
-            array_retornan[cont - 1].medico.matricula = array_medicos[Doc].matricula;
-            array_retornan[cont - 1].medico.teldoc = array_medicos[Doc].teldoc;
-            array_retornan[cont - 1].medico.nombre = array_medicos[Doc].nombre;
-            array_retornan[cont - 1].medico.apellido = array_medicos[Doc].apellido;
-            array_retornan[cont - 1].medico.especialidad = array_medicos[Doc].especialidad;
-            array_retornan[cont - 1].medico.actividad = array_medicos[Doc].actividad;
-            array_retornan[cont - 1].os = lista_menos10[i].os;
+
+            if (Phone != -1)array_retornan[cont - 1].Telefono = array_contacto[Phone].celular;
+            else array_retornan[cont - 1].Telefono = "N/C";  //Significa no celular
+
+            if (Doc != -1) {
+
+                array_retornan[cont - 1].medico.matricula = array_medicos[Doc].matricula;
+                array_retornan[cont - 1].medico.teldoc = array_medicos[Doc].teldoc;
+                array_retornan[cont - 1].medico.nombre = array_medicos[Doc].nombre;
+                array_retornan[cont - 1].medico.apellido = array_medicos[Doc].apellido;
+                array_retornan[cont - 1].medico.especialidad = array_medicos[Doc].especialidad;
+                array_retornan[cont - 1].medico.actividad = array_medicos[Doc].actividad;
+
+            }
+            else {                                                     // N/A significa no asignado
+
+                array_retornan[cont - 1].medico.matricula = "N/A";
+                array_retornan[cont - 1].medico.teldoc = "N/A";
+                array_retornan[cont - 1].medico.nombre = "N/A";
+                array_retornan[cont - 1].medico.apellido = "N/A";
+                array_retornan[cont - 1].medico.especialidad = "N/A";
+                array_retornan[cont - 1].medico.actividad = "N/A";
+
+            }
+
+            if (opcion2 == 1) {
+
+                opcion2 = rand() % 6;
+
+                switch (opcion2) //Si la obra social queda igual que la antigua consideramos que cambio de plan medico
+                {
+                case (0):
+                    array_retornan[cont - 1].os = "Medicus";
+                    break;
+
+                case (1):
+                    array_retornan[cont - 1].os = "Italiano";
+                    break;
+
+                case (2):
+                    array_retornan[cont - 1].os = "Espanyol";
+                    break;
+
+                case (3):
+                    array_retornan[cont - 1].os = "Aleman";
+                    break;
+
+                case (4):
+                    array_retornan[cont - 1].os = "OSDE";
+                    break;
+
+                case (5):
+                    array_retornan[cont - 1].os = "IOSFA";
+                    break;
+
+                }
+
+            }
+            else  array_retornan[cont - 1].os = lista_menos10[i].os;
+
             array_retornan[cont - 1].retorna = "Si";
 
 
         }
-        if (lista_menos10[i].estado == "n/c" && opcion == 0) {
 
-            cont2++;
-        }
+        if (lista_menos10[i].estado == "n/c" && opcion == 0)cont2++;
 
 
 
@@ -503,21 +576,37 @@ int BuscarMedico(string DNI, Medico* array_medicos, int tam_med, Consulta* array
 
     int i = 0;
     int j = 0;
+    int pos = -1;
+    float dif1 = 0;
+    float dif2 = 0;
 
     for(i=0;i<tam_cons;i++){                      //Recorremos la lista de consultas
 
         if (DNI == array_consultas[i].dni_1) {    //Buscamos la consulta del paciente filtrando por dni
 
-            for (j = 0; j < tam_med; j++) {      //Recorremos la lista de medicos
+            dif1 = fecha(array_consultas[i].fecha_consulta);
 
-                if (array_consultas[i].matricula == array_medicos[j].matricula) {  //Buscamos al medico por matricula
+            if (pos == 0) dif2 = dif1;                     //Nos aseguramos que sea la ultima consulta
 
-                    return j;         //Retornamos la posicion de la lista donde esta el medico que queremos
-                }
+            if (dif2 >= dif1) {
+
+                pos = i;
+                dif2 = dif1;
             }
 
         }
     
+    }
+
+    if (pos != -1) {                      //Nos aseguramos que haya encontrado una consulta antes de buscar al medico
+
+        for (j = 0; j < tam_med; j++) {      //Recorremos la lista de medicos
+
+            if (array_consultas[pos].matricula == array_medicos[j].matricula) {  //Buscamos al medico por matricula
+
+                return j;         //Retornamos la posicion de la lista donde esta el medico que queremos
+            }
+        }
     }
     return -1;                          //Si no lo encontramos retornamos -1
 }
@@ -534,6 +623,19 @@ int BuscarContacto(string DNI, Contacto* array_contacto, int tam_cont) {
 
     }
     return -1; //-1 si no encontro el dni que le pasamos
+}
+
+
+int BuscarPaciente(string DNI, Paciente* array_paciente, int tam_p) {
+
+    for (int i = 0; i < tam_p; i++) {
+
+        if (DNI == array_paciente[i].dni)return i;
+        
+    }
+
+    return -1;
+
 }
 
 

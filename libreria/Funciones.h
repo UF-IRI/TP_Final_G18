@@ -114,6 +114,8 @@ int BuscarMedico(string DNI, Medico* array_medicos, int tam_med, Consulta* array
 
 int BuscarContacto(string DNI, Contacto* array_contacto, int tam_cont);  //Busca los datos de contacto de un paciente
 
+int BuscarPaciente(string DNI, Paciente* array_paciente, int tam_p);
+
 //Funciones para imprimir tipos de listas (es un extra para hacer pruebas y chekeos)
 
 void Imprimir_P(Paciente *array_pacientes, int tam_P);

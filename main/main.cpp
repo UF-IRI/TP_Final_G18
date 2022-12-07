@@ -88,6 +88,9 @@ Tambien declaramos listas para clasificarlos segun su estado.
 
     IndataP.open(Archivo_P, ios::in);
 
+    if (IndataP.is_open())cout << "\nEl archivo " << Archivo_P << "se abrio correctamente." << endl;
+    else cout << "\nEl archivo " << Archivo_P << "no pudo abrirse." << endl;
+
     IndataP >> dummy >> coma >> dummy >> coma >> dummy >> coma >> dummy >> coma >> dummy >> coma >> dummy >> coma >> dummy;
 
     while (IndataP) //Recorremos todo el archivo fila a fila y guardamos los datos de cada una donde corresponde
@@ -114,6 +117,9 @@ Tambien declaramos listas para clasificarlos segun su estado.
 
     Indatac.open(Archivo_c, ios::in);  
 
+    if (Indatac.is_open())cout << "\nEl archivo " << Archivo_c << "se abrio correctamente." << endl;
+    else cout << "\nEl archivo " << Archivo_c << "no pudo abrirse." << endl;
+
     Indatac >> dummy >> coma >> dummy >> coma >> dummy >> coma >> dummy >> coma >> dummy;
 
     i = 0;
@@ -138,6 +144,9 @@ Tambien declaramos listas para clasificarlos segun su estado.
  //Lectura de Consultas:
 
     IndataC.open(Archivo_C, ios::in);
+
+    if (IndataC.is_open())cout << "\nEl archivo " << Archivo_C << "se abrio correctamente." << endl;
+    else cout << "\nEl archivo " << Archivo_C << "no pudo abrirse." << endl;
 
     i = 0;
 
@@ -164,6 +173,9 @@ Tambien declaramos listas para clasificarlos segun su estado.
 //Leemos datos de los medicos:
 
     IndataM.open(Archivo_M, ios::in); 
+
+    if (IndataM.is_open())cout << "\nEl archivo " << Archivo_M << "se abrio correctamente." << endl;
+    else cout << "\nEl archivo " << Archivo_M << "no pudo abrirse." << endl;
 
     i = 0;
 
